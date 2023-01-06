@@ -1,3 +1,5 @@
+import { SuccessContainer } from './styles'
+
 export function Success() {
-  return <h1>Hi There Success</h1>
+  return <SuccessContainer></SuccessContainer>
 }

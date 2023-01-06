@@ -254,8 +254,8 @@ export function Home() {
                 <label>{coffee.description}</label>
                 <CardBuy>
                   <div className="price">
-                    <text>R$</text>
-                    <text className="thisPrice">{coffee.price}</text>
+                    <b>R$</b>
+                    <b className="thisPrice">{coffee.price}</b>
                   </div>
                   <div className="toBuy">
                     <span>

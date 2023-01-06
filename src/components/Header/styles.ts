@@ -5,7 +5,7 @@ export const HeaderContainer = styled.header`
   display: flex;
   justify-content: space-between;
 `
-export const NavContainer = styled.span`
+export const NavContainer = styled.nav`
   display: flex;
   align-items: center;
   gap: 1rem;
