@@ -54,6 +54,10 @@ export const CheckoutContainer = styled.div`
     border: 0;
   }
 
+  .cardButton:hover {
+    background-color: ${(props) => props.theme['base-hover']};
+  }
+
   .icon {
     color: ${(props) => props.theme.purple};
     display: flex;
@@ -126,6 +130,21 @@ export const AddressInput = styled.div`
   input::placeholder {
     color: ${(props) => props.theme['base-label']};
   }
+
+  input:focus {
+    outline: 1px solid;
+    outline-color: ${(props) => props.theme['yellow-dark']};
+  }
+
+  /*   .optional {
+    width: 0;
+    height: 0;
+    position: relative;
+    left: 88%;
+    top: -3rem;
+    color: ${(props) => props.theme['base-label']};
+    font-style: italic;
+  } */
 `
 
 export const PaymentDetail = styled.div`
@@ -150,6 +169,12 @@ export const PaymentButton = styled.div`
   justify-content: space-between;
   gap: 0.75rem;
   flex-grow: 0;
+
+  .cardButton:focus {
+    background-color: ${(props) => props.theme['purple-light']};
+    outline: 1px solid;
+    outline-color: ${(props) => props.theme.purple};
+  }
 `
 
 export const CoffeeBought = styled.div`
@@ -231,6 +256,10 @@ export const CartContainer = styled.div`
     font-weight: bold;
     color: ${(props) => props.theme.white};
   }
+
+  .confirm-button:hover {
+    background-color: ${(props) => props.theme['yellow-dark']};
+  }
 `
 
 export const CartButtonWrapper = styled.span`
@@ -249,22 +278,38 @@ export const QuantityButton = styled.span`
   background-color: ${(props) => props.theme['base-button']};
   padding: 0.531rem 0.5rem;
   line-height: 20.8px;
-  display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.3rem;
   border-radius: 6px;
   width: 4.5rem;
+
+  span {
+    margin-right: 0.15rem;
+  }
 
   .symbol {
     color: ${(props) => props.theme.purple};
     vertical-align: bottom;
   }
 
+  .symbol:hover {
+    color: ${(props) => props.theme['purple-dark']};
+  }
+
   .symbol:first-child {
     margin-right: 0.25rem;
   }
 
-  .symbol:nth-child(2) {
-    margin-left: 0.25rem;
+  button {
+    display: flex;
+    align-items: center;
+    outline: none;
+    border: 0;
+  }
+
+  button:hover {
+    box-shadow: none;
+    background-color: ${(props) => props.theme['base-button']};
+    cursor: pointer;
   }
 `

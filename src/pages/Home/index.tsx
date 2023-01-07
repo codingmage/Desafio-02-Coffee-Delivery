@@ -29,6 +29,7 @@ import {
   Plus,
   Minus,
 } from 'phosphor-react'
+import { QuantityButton } from '../Checkout/styles'
 
 interface SingleCoffee {
   image: string
@@ -258,11 +259,15 @@ export function Home() {
                     <b className="thisPrice">{coffee.price}</b>
                   </div>
                   <div className="toBuy">
-                    <span>
-                      <Minus className="symbol" />
+                    <QuantityButton>
+                      <button>
+                        <Minus className="symbol" />
+                      </button>
                       {coffee.howMany}
-                      <Plus className="symbol" />
-                    </span>
+                      <button>
+                        <Plus className="symbol two" />
+                      </button>
+                    </QuantityButton>
                     <button className="cart">
                       <ShoppingCart weight="fill" size={24} />
                     </button>

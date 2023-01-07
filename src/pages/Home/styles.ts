@@ -207,8 +207,8 @@ export const CardBuy = styled.div`
     margin-right: 0.25rem;
   }
 
-  .symbol:nth-child(2) {
-    margin-left: 0.25rem;
+  .two {
+    margin-left: 0.2rem;
   }
 
   .cart {
@@ -222,5 +222,9 @@ export const CardBuy = styled.div`
     border-radius: 8px;
     color: ${(props) => props.theme['base-card']};
     cursor: pointer;
+  }
+
+  .cart:hover {
+    background-color: ${(props) => props.theme.purple};
   }
 `

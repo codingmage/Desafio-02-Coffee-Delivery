@@ -85,6 +85,7 @@ export function Checkout() {
                   className="complemento"
                 />
               </div>
+              {/*               <div className="optional">Opcional</div> */}
               <div>
                 <input
                   type="text"
@@ -151,9 +152,13 @@ export function Checkout() {
                       <p>{coffee.name}</p>
                       <CartButtonWrapper>
                         <QuantityButton>
-                          <Minus className="symbol" />
-                          {coffee.howMany}
-                          <Plus className="symbol" />
+                          <button>
+                            <Minus className="symbol" />
+                          </button>
+                          <span>{coffee.howMany}</span>
+                          <button>
+                            <Plus className="symbol" />
+                          </button>
                         </QuantityButton>
                         <button className="cardButton">
                           <span>
