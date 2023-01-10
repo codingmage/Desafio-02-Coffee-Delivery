@@ -1,12 +1,17 @@
 import styled from 'styled-components'
 
-export const CheckoutContainer = styled.div`
+export const CheckoutContainer = styled.main`
   display: flex;
   gap: 2rem;
   margin-left: 10rem;
   margin-right: 10rem;
   font-family: 'Roboto', sans-serif;
   font-size: 0.875rem;
+
+  form {
+    display: flex;
+    gap: 2rem;
+  }
 
   h2 {
     font-family: 'Baloo 2', sans-serif;
@@ -25,42 +30,53 @@ export const CheckoutContainer = styled.div`
     color: ${(props) => props.theme['base-text']};
   }
 
-  header {
-    display: flex;
-  }
-
-  header span {
-    margin-right: 0.715rem;
-  }
-
-  header div {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .cardButton {
-    background-color: ${(props) => props.theme['base-button']};
-    color: ${(props) => props.theme['base-text']};
-    font-size: 0.75rem;
-    border-radius: 6px;
-    padding: 1rem;
-    gap: 0.75rem;
-    flex-basis: 0;
-    flex-grow: 1;
-    justify-content: flex-start;
-    display: flex;
-    align-items: center;
-    line-height: 160%;
-    border: 0;
-  }
-
-  .cardButton:hover {
-    background-color: ${(props) => props.theme['base-hover']};
-  }
-
   .icon {
     color: ${(props) => props.theme.purple};
     display: flex;
+  }
+`
+
+export const CardButton = styled.button`
+  background-color: ${(props) => props.theme['base-button']};
+  color: ${(props) => props.theme['base-text']};
+  font-size: 0.75rem;
+  border-radius: 6px;
+  padding: 1rem;
+  gap: 0.75rem;
+  flex-basis: 0;
+  flex-grow: 1;
+  justify-content: flex-start;
+  display: flex;
+  align-items: center;
+  line-height: 160%;
+  border: 0;
+
+  &:hover {
+    background-color: ${(props) => props.theme['base-hover']};
+  }
+`
+
+export const ButtonSelection = styled(CardButton)`
+  &:focus {
+    background-color: ${(props) => props.theme['purple-light']};
+    outline: 1px solid;
+    outline-color: ${(props) => props.theme.purple};
+  }
+
+  /* .active {
+        background-color: ${(props) => props.theme['purple-light']};
+    outline: 1px solid;
+    outline-color: ${(props) => props.theme.purple};
+  }
+  check bookmark active element */
+`
+
+export const LabelContainer = styled.label`
+  display: flex;
+  gap: 0.5rem;
+
+  span {
+    color: ${(props) => props.theme['yellow-dark']};
   }
 `
 
@@ -76,10 +92,6 @@ export const OrderDetail = styled.div`
   margin-top: 0.938rem;
   padding: 2.5rem;
   margin-bottom: 2rem;
-
-  .icon {
-    color: ${(props) => props.theme['yellow-dark']};
-  }
 `
 
 export const AddressInput = styled.div`
@@ -98,22 +110,6 @@ export const AddressInput = styled.div`
     flex-grow: 1;
     gap: 0.75rem;
     justify-content: space-between;
-  }
-
-  .cidade {
-    flex-grow: 1;
-  }
-
-  .complemento {
-    flex-grow: 1;
-  }
-
-  .firstBox {
-    width: 12.5rem;
-  }
-
-  .last {
-    width: 3.75rem;
   }
 
   input {
@@ -147,6 +143,26 @@ export const AddressInput = styled.div`
   } */
 `
 
+export const BaseInput = styled.input`
+  background-color: ${(props) => props.theme['base-button']};
+  font-family: 'Roboto', sans-serif;
+  color: ${(props) => props.theme['base-text']};
+  font-weight: 400;
+  border: 1px solid #e6e5e5;
+  border-radius: 4px;
+  box-sizing: border-box;
+  padding: 0.75rem;
+  flex-grow: 1;
+`
+
+export const FirstInput = styled(BaseInput)`
+  max-width: 12.5rem;
+`
+
+export const LastInput = styled(BaseInput)`
+  max-width: 3.8rem;
+`
+
 export const PaymentDetail = styled.div`
   display: flex;
   flex-direction: column;
@@ -169,12 +185,6 @@ export const PaymentButton = styled.div`
   justify-content: space-between;
   gap: 0.75rem;
   flex-grow: 0;
-
-  .cardButton:focus {
-    background-color: ${(props) => props.theme['purple-light']};
-    outline: 1px solid;
-    outline-color: ${(props) => props.theme.purple};
-  }
 `
 
 export const CoffeeBought = styled.div`
@@ -209,21 +219,6 @@ export const CartContainer = styled.div`
     list-style: none;
   }
 
-  .coffee-holder {
-    display: flex;
-    align-items: center;
-  }
-
-  .coffee-holder div p {
-    color: ${(props) => props.theme['base-subtitle']};
-    margin-bottom: 0.5rem;
-  }
-
-  .price {
-    float: inline-end;
-    margin-top: -3.8rem;
-  }
-
   hr {
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
@@ -235,30 +230,31 @@ export const CartContainer = styled.div`
     display: flex;
     justify-content: space-between;
   }
+`
 
-  .total-container {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+export const CoffeeContainer = styled.div`
+  display: flex;
+  align-items: center;
+
+  div p {
+    color: ${(props) => props.theme['base-subtitle']};
+    margin-bottom: 0.5rem;
   }
+`
 
-  .total-amount {
+export const CoffeePrice = styled.span`
+  float: inline-end;
+  margin-top: -3.8rem;
+`
+
+export const TotalContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  span:nth-child(3) {
     size: 1.25rem;
     font-weight: bold;
-  }
-
-  .confirm-button {
-    margin-top: 1.5rem;
-    background-color: ${(props) => props.theme.yellow};
-    border: 0;
-    padding: 0.75rem 0.5rem;
-    border-radius: 6px;
-    font-weight: bold;
-    color: ${(props) => props.theme.white};
-  }
-
-  .confirm-button:hover {
-    background-color: ${(props) => props.theme['yellow-dark']};
   }
 `
 
@@ -287,29 +283,38 @@ export const QuantityButton = styled.span`
     margin-right: 0.15rem;
   }
 
-  .symbol {
+  button {
     color: ${(props) => props.theme.purple};
     vertical-align: bottom;
-  }
-
-  .symbol:hover {
-    color: ${(props) => props.theme['purple-dark']};
-  }
-
-  .symbol:first-child {
-    margin-right: 0.25rem;
-  }
-
-  button {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    outline: none;
     border: 0;
+    outline: none;
   }
 
   button:hover {
+    color: ${(props) => props.theme['purple-dark']};
     box-shadow: none;
     background-color: ${(props) => props.theme['base-button']};
     cursor: pointer;
+  }
+
+  button:first-child {
+    margin-right: 0.25rem;
+  }
+`
+
+export const ConfirmButton = styled.button`
+  margin-top: 1.5rem;
+  background-color: ${(props) => props.theme.yellow};
+  border: 0;
+  padding: 0.75rem 0.5rem;
+  border-radius: 6px;
+  font-weight: bold;
+  color: ${(props) => props.theme.white};
+
+  &:hover {
+    background-color: ${(props) => props.theme['yellow-dark']};
   }
 `

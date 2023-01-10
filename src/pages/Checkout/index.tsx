@@ -8,6 +8,16 @@ import {
   PaymentDetail,
   QuantityButton,
   CartButtonWrapper,
+  BaseInput,
+  FirstInput,
+  LabelContainer,
+  CardButton,
+  ButtonSelection,
+  LastInput,
+  CoffeeContainer,
+  CoffeePrice,
+  TotalContainer,
+  ConfirmButton,
 } from './styles'
 
 import {
@@ -51,144 +61,123 @@ const cartCoffees: CoffeesBought[] = [
 export function Checkout() {
   return (
     <CheckoutContainer>
-      <div>
-        <h2>Complete seu pedido</h2>
-        <OrderDetail>
-          <header>
-            <span className="icon">
-              <MapPinLine size={22} />
-            </span>
-            <div>
-              <h3>Endereço de Entrega</h3>
-              <p>Informe o endereço onde deseja receber seu pedido</p>
-            </div>
-          </header>
-          <AddressInput>
-            <form action="">
-              <input
-                type="text"
-                placeholder="CEP"
-                className="firstBox"
-                required
-              />
-              <input type="text" placeholder="Rua" className="rua" required />
+      <form action="">
+        <div>
+          <h2>Complete seu pedido</h2>
+          <OrderDetail>
+            <LabelContainer>
+              <span>
+                <MapPinLine size={22} />
+              </span>
               <div>
-                <input
-                  type="text"
-                  placeholder="Número"
-                  className="firstBox"
-                  required
-                />
-                <input
-                  type="text"
-                  placeholder="Complemento"
-                  className="complemento"
-                />
+                <h3>Endereço de Entrega</h3>
+                <p>Informe o endereço onde deseja receber seu pedido</p>
               </div>
-              {/*               <div className="optional">Opcional</div> */}
+            </LabelContainer>
+            <AddressInput>
+              <form action="">
+                <FirstInput type="text" placeholder="CEP" required />
+                <BaseInput type="text" placeholder="Rua" required />
+                <div>
+                  <FirstInput type="text" placeholder="Número" required />
+                  <BaseInput type="text" placeholder="Complemento" />
+                </div>
+                {/*               <div className="optional">Opcional</div> */}
+                <div>
+                  <FirstInput type="text" placeholder="Bairro" required />
+                  <BaseInput type="text" placeholder="Cidade" required />
+                  <LastInput type="text" placeholder="UF" required />
+                </div>
+              </form>
+            </AddressInput>
+          </OrderDetail>
+          <PaymentDetail>
+            <LabelContainer>
+              <span className="icon">
+                <CurrencyDollar size={22} />
+              </span>
               <div>
-                <input
-                  type="text"
-                  placeholder="Bairro"
-                  className="firstBox"
-                  required
-                />
-                <input
-                  type="text"
-                  placeholder="Cidade"
-                  className="cidade"
-                  required
-                />
-                <input type="text" placeholder="UF" className="last" required />
+                <h3>Pagamento</h3>
+                <p>
+                  O pagamento é feito na entrega. Escolha a forma que deseja
+                  pagar.
+                </p>
               </div>
-            </form>
-          </AddressInput>
-        </OrderDetail>
-        <PaymentDetail>
-          <header>
-            <span className="icon">
-              <CurrencyDollar size={22} />
-            </span>
-            <div>
-              <h3>Pagamento</h3>
-              <p>
-                O pagamento é feito na entrega. Escolha a forma que deseja
-                pagar.
-              </p>
-            </div>
-          </header>
-          <PaymentButton>
-            <button className="cardButton">
-              <span className="icon">
-                <CreditCard size={16} />
+            </LabelContainer>
+            <PaymentButton>
+              {/* add active button class function */}
+              <ButtonSelection type="button">
+                <span className="icon">
+                  <CreditCard size={16} />
+                </span>
+                CARTÃO DE CRÉDITO
+              </ButtonSelection>
+              <ButtonSelection type="button">
+                <span className="icon">
+                  <Bank size={16} />
+                </span>
+                CARTÃO DE DÉBITO
+              </ButtonSelection>
+              <ButtonSelection type="button">
+                <span className="icon">
+                  <Money size={16} />
+                </span>
+                DINHEIRO
+              </ButtonSelection>
+            </PaymentButton>
+          </PaymentDetail>
+        </div>
+        <CoffeeBought>
+          <h2>Cafés selecionados </h2>
+          <CartContainer>
+            <ul>
+              {cartCoffees.map((coffee) => {
+                return (
+                  <li key={coffee.id}>
+                    <CoffeeContainer>
+                      <img src={coffee.image} alt="foto do café" />
+                      <div>
+                        <p>{coffee.name}</p>
+                        <CartButtonWrapper>
+                          <QuantityButton>
+                            <button type="button">
+                              <Minus />
+                            </button>
+                            <span>{coffee.howMany}</span>
+                            <button type="button">
+                              <Plus />
+                            </button>
+                          </QuantityButton>
+                          <CardButton type="button">
+                            <span>
+                              <Trash size={16} className="icon" />
+                              REMOVER
+                            </span>
+                          </CardButton>
+                        </CartButtonWrapper>
+                      </div>
+                    </CoffeeContainer>
+                    <CoffeePrice>R$ {coffee.price}</CoffeePrice>
+                    <hr />
+                  </li>
+                )
+              })}
+            </ul>
+            <TotalContainer>
+              <span>
+                Total de items<span>R$ 29,70</span>
               </span>
-              CARTÃO DE CRÉDITO
-            </button>
-            <button className="cardButton">
-              <span className="icon">
-                <Bank size={16} />
+              <span>
+                Entrega <span>R$ 3,50</span>
               </span>
-              CARTÃO DE DÉBITO
-            </button>
-            <button className="cardButton">
-              <span className="icon">
-                <Money size={16} />
+              <span>
+                Total <span>R$ 33,20</span>
               </span>
-              DINHEIRO
-            </button>
-          </PaymentButton>
-        </PaymentDetail>
-      </div>
-      <CoffeeBought>
-        <h2>Cafés selecionados </h2>
-        <CartContainer>
-          <ul>
-            {cartCoffees.map((coffee) => {
-              return (
-                <li key={coffee.id}>
-                  <div className="coffee-holder">
-                    <img src={coffee.image} alt="foto do café" />
-                    <div>
-                      <p>{coffee.name}</p>
-                      <CartButtonWrapper>
-                        <QuantityButton>
-                          <button>
-                            <Minus className="symbol" />
-                          </button>
-                          <span>{coffee.howMany}</span>
-                          <button>
-                            <Plus className="symbol" />
-                          </button>
-                        </QuantityButton>
-                        <button className="cardButton">
-                          <span>
-                            <Trash size={16} className="icon" />
-                            REMOVER
-                          </span>
-                        </button>
-                      </CartButtonWrapper>
-                    </div>
-                  </div>
-                  <span className="price">R$ {coffee.price}</span>
-                  <hr />
-                </li>
-              )
-            })}
-          </ul>
-          <div className="total-container">
-            <span>
-              Total de items<span>R$ 29,70</span>
-            </span>
-            <span>
-              Entrega <span>R$ 3,50</span>
-            </span>
-            <span className="total-amount">
-              Total <span>R$ 33,20</span>
-            </span>
-          </div>
-          <button className="confirm-button">CONFIRMAR PEDIDO</button>
-        </CartContainer>
-      </CoffeeBought>
+            </TotalContainer>
+            <ConfirmButton type="submit">CONFIRMAR PEDIDO</ConfirmButton>
+          </CartContainer>
+        </CoffeeBought>
+      </form>
     </CheckoutContainer>
   )
 }

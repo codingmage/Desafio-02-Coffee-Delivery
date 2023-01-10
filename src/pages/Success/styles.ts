@@ -28,12 +28,18 @@ export const MainContainer = styled.main`
     width: 30.75rem;
     height: 18.313rem;
   }
+`
 
-  .border {
-    padding: 0.75rem;
-    background: linear-gradient(to right, #dbac2c, #8047f8);
-    border-radius: 6px 36px;
-  }
+export const BorderContainer = styled.div`
+  display: flex;
+  padding: 0.06rem;
+  background: linear-gradient(to right, #dbac2c, #8047f8);
+  border-radius: 6px 36px;
+`
+
+export const TextContainer = styled.div`
+  display: flex;
+  align-items: center;
 `
 
 export const AddressContainer = styled.div`
@@ -44,39 +50,16 @@ export const AddressContainer = styled.div`
   font-size: 1rem;
   color: ${(props) => props.theme['base-text']};
   background-color: ${(props) => props.theme.background};
+  border-radius: 6px 36px;
   /*   border: 1px solid;
   border-radius: 6px 36px;
   border-image: linear-gradient(to right, #dbac2c, #8047f8) 1; */
-
   p {
     font-size: 1rem;
   }
 
-  .bold-address {
-    font-weight: bold;
+  b {
     margin-left: 5px;
-  }
-
-  .bold-text {
-    font-weight: bold;
-  }
-
-  .text-container {
-    display: flex;
-    align-items: center;
-  }
-
-  .icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 2rem;
-    height: 2rem;
-    margin-right: 0.75rem;
-    padding: 0.5rem;
-    gap: 0.5rem;
-    border-radius: 999px;
-    color: ${(props) => props.theme.background};
   }
 
   .pin {
@@ -90,4 +73,20 @@ export const AddressContainer = styled.div`
   .currency {
     background-color: ${(props) => props.theme['yellow-dark']};
   }
+`
+
+export const BoldText = styled.p`
+  font-weight: bold;
+`
+export const IconContainer = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  margin-right: 0.75rem;
+  padding: 0.5rem;
+  gap: 0.5rem;
+  border-radius: 999px;
+  color: ${(props) => props.theme.background};
 `

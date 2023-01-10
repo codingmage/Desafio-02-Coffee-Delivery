@@ -5,8 +5,6 @@ export const HomeContainer = styled.main`
   display: flex;
   flex-direction: column;
 `
-/* backgroundImage: `url(${Background})`,
-backgroundRepeat: 'no-repeat', */
 
 export const BackgroundImage = styled.div`
   background-image: url(${Background});
@@ -41,48 +39,48 @@ export const TextContainer = styled.div`
     color: ${(props) => props.theme['base-subtitle']};
   }
 
-  ul {
-    margin-top: 3.125rem;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    gap: 1.25rem;
-    list-style-type: none;
-    padding-left: 0;
-    font: 1rem;
-    justify-content: center;
-    height: 5.25rem;
-    line-height: 1.3rem;
-  }
-
-  ul span {
-    width: 2rem;
-    height: 2rem;
-    border-radius: 999px;
-    margin-right: 0.75rem;
-    padding: 0.5rem;
-    gap: 0.5rem;
-    background-color: ${(props) => props.theme.purple};
-    display: flex;
-    align-items: center;
-  }
-
-  .cart {
-    background-color: ${(props) => props.theme['yellow-dark']};
-  }
-
-  .timer {
-    background-color: ${(props) => props.theme.yellow};
-  }
-
-  .package {
-    background-color: ${(props) => props.theme['base-text']};
-  }
-
   li {
     display: flex;
     align-items: center;
   }
+`
+
+export const PositivePointsContainer = styled.ul`
+  margin-top: 3.125rem;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  list-style-type: none;
+  padding-left: 0;
+  font: 1rem;
+  justify-content: center;
+  height: 5.25rem;
+  line-height: 1.3rem;
+`
+
+const ICON_BACKGROUND_COLOR = {
+  purple: 'purple',
+  darkYellow: 'yellow-dark',
+  yellow: 'yellow',
+  gray: 'base-text',
+} as const
+
+interface IconProps {
+  iconBackgroundColor: keyof typeof ICON_BACKGROUND_COLOR
+}
+
+export const IconContainer = styled.span<IconProps>`
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  margin-right: 0.75rem;
+  padding: 0.5rem;
+  gap: 0.5rem;
+  background-color: ${(props) =>
+    props.theme[ICON_BACKGROUND_COLOR[props.iconBackgroundColor]]};
+  display: flex;
+  align-items: center;
 `
 
 export const CoffeeList = styled.div`
@@ -98,43 +96,36 @@ export const CoffeeList = styled.div`
     color: ${(props) => props.theme['base-subtitle']};
   }
 
-  ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    margin-top: 2.5rem;
+  label {
+    font-size: 0.875rem;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    color: ${(props) => props.theme['base-label']};
+    text-align: center;
+    margin: 0 1.25rem;
   }
+`
 
-  li {
-    display: flex;
-    gap: 2rem;
-  }
+export const AllCoffeesContainer = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 2.5rem;
+`
 
-  .cardSettings {
-    width: 16rem;
-    height: 17.3rem;
-    background-color: ${(props) => props.theme['base-card']};
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    border-radius: 6px 36px;
-  }
+export const CardSettings = styled.li`
+  width: 16rem;
+  height: 17.3rem;
+  background-color: ${(props) => props.theme['base-card']};
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 6px 36px;
 
-  ul div img {
+  img {
     margin-top: -1.25rem;
     margin-bottom: 0.75rem;
-  }
-
-  .tagSettings {
-    margin-top: 0;
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.625rem;
-    font-weight: 700;
-    font-family: 'Roboto', sans-serif;
   }
 
   h3 {
@@ -145,50 +136,53 @@ export const CoffeeList = styled.div`
     font-size: 1.25rem;
     color: ${(props) => props.theme['base-subtitle']};
   }
+`
 
-  label {
-    font-size: 0.875rem;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 400;
-    color: ${(props) => props.theme['base-label']};
-    text-align: center;
-    margin: 0 1.25rem;
-  }
+export const TagContainer = styled.ul`
+  margin-top: 0;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.625rem;
+  font-weight: 700;
+  font-family: 'Roboto', sans-serif;
+`
 
-  .tag {
-    background-color: ${(props) => props.theme['yellow-light']};
-    color: ${(props) => props.theme['yellow-dark']};
-    padding: 0.25rem 0.5rem;
-    border-radius: 100px;
+export const Tags = styled.li`
+  background-color: ${(props) => props.theme['yellow-light']};
+  color: ${(props) => props.theme['yellow-dark']};
+  padding: 0.25rem 0.5rem;
+  border-radius: 100px;
+`
+
+export const ThisCoffeePrice = styled.div`
+  font-size: 0.875rem;
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.138rem;
+  color: ${(props) => props.theme['base-text']};
+
+  b:nth-child(2) {
+    margin-left: 0.25rem;
+    font-size: 1.5rem;
+    font-family: 'Baloo 2', sans-serif;
+    line-height: 1.95rem;
   }
 `
+
 export const CardBuy = styled.div`
   display: flex;
   margin: auto 1.5rem 1.25rem;
   align-items: center;
   gap: 1.438rem;
 
-  .price {
-    font-size: 0.875rem;
-    font-family: 'Roboto', sans-serif;
-    line-height: 1.138rem;
-    color: ${(props) => props.theme['base-text']};
-  }
-
-  .thisPrice {
-    margin-left: 0.25rem;
-    font-size: 1.5rem;
-    font-family: 'Baloo 2', sans-serif;
-    line-height: 1.95rem;
-  }
-
-  .toBuy {
+  div:nth-child(2) {
     display: flex;
     align-items: center;
     gap: 0.5rem;
   }
 
-  .toBuy span {
+  div:nth-child(2) span {
     background-color: ${(props) => props.theme['base-button']};
     padding: 0.531rem 0.5rem;
     line-height: 20.8px;
@@ -198,33 +192,24 @@ export const CardBuy = styled.div`
     border-radius: 6px;
   }
 
-  .symbol {
-    color: ${(props) => props.theme.purple};
-    vertical-align: bottom;
-  }
-
-  .symbol:first-child {
-    margin-right: 0.25rem;
-  }
-
   .two {
     margin-left: 0.2rem;
   }
+`
 
-  .cart {
-    display: flex;
-    align-items: center;
-    padding: 0.5rem;
-    outline: 0;
-    outline-color: blue;
-    border: 0;
-    background-color: ${(props) => props.theme['purple-dark']};
-    border-radius: 8px;
-    color: ${(props) => props.theme['base-card']};
-    cursor: pointer;
-  }
+export const CartButton = styled.button`
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  outline: 0;
+  outline-color: blue;
+  border: 0;
+  background-color: ${(props) => props.theme['purple-dark']};
+  border-radius: 8px;
+  color: ${(props) => props.theme['base-card']};
+  cursor: pointer;
 
-  .cart:hover {
+  &:hover {
     background-color: ${(props) => props.theme.purple};
   }
 `

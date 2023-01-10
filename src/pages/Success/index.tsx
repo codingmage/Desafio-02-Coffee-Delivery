@@ -1,4 +1,12 @@
-import { AddressContainer, MainContainer, SuccessContainer } from './styles'
+import {
+  AddressContainer,
+  BoldText,
+  BorderContainer,
+  IconContainer,
+  MainContainer,
+  SuccessContainer,
+  TextContainer,
+} from './styles'
 import Scooter from '../../assets/Illustration.png'
 import { Timer, CurrencyDollar, MapPin } from 'phosphor-react'
 
@@ -8,41 +16,39 @@ export function Success() {
       <h2>Uhu! Pedido confirmado</h2>
       <p>Agora é só aguardar que logo o café chegará até você</p>
       <MainContainer>
-        <div className="border">
+        <BorderContainer>
           <AddressContainer>
-            <div className="text-container">
-              <span className="icon pin">
+            <TextContainer>
+              <IconContainer className="pin">
                 <MapPin size={16} weight="fill" />
-              </span>
+              </IconContainer>
               <div>
                 Entrega em
-                <span className="bold-address">
-                  Rua João Daniel Martinelli, 102
-                </span>
+                <b>Rua João Daniel Martinelli, 102</b>
                 <p>Farrapos - Porto Alegre, RS</p>
               </div>
-            </div>
-            <div className="text-container">
-              <span className="icon timer">
+            </TextContainer>
+            <TextContainer>
+              <IconContainer className="timer">
                 <Timer size={16} />
-              </span>
+              </IconContainer>
               <div>
                 Previsão de entrega
-                <p className="bold-text">20 min - 30 min</p>
+                <BoldText>20 min - 30 min</BoldText>
               </div>
-            </div>
-            <div className="text-container">
-              <span className="icon currency">
+            </TextContainer>
+            <TextContainer>
+              <IconContainer className="currency">
                 <CurrencyDollar size={16} />
-              </span>
+              </IconContainer>
               <div>
                 Pagamento na entrega
-                <p className="bold-text">Cartão de Crédito</p>
+                <BoldText>Cartão de Crédito</BoldText>
               </div>
-            </div>
+            </TextContainer>
           </AddressContainer>
-        </div>
-        <img src={Scooter} alt="Delivery Man" />
+        </BorderContainer>
+        <img src={Scooter} alt="Entregador em uma scooter" />
       </MainContainer>
     </SuccessContainer>
   )

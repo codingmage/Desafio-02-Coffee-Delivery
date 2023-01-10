@@ -4,7 +4,12 @@ export const HeaderContainer = styled.header`
   padding: 2rem 10rem;
   display: flex;
   justify-content: space-between;
+
+  a {
+    height: 2.3rem;
+  }
 `
+
 export const NavContainer = styled.nav`
   display: flex;
   align-items: center;
@@ -19,7 +24,7 @@ export const NavContainer = styled.nav`
     padding: 0.5rem;
   }
 
-  button {
+  a {
     display: flex;
     align-items: center;
     padding: 0.5rem;

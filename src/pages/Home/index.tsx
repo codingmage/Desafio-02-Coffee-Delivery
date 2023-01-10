@@ -5,7 +5,16 @@ import {
   CoffeeList,
   BackgroundImage,
   CardBuy,
+  PositivePointsContainer,
+  CardSettings,
+  AllCoffeesContainer,
+  TagContainer,
+  Tags,
+  IconContainer,
+  ThisCoffeePrice,
+  CartButton,
 } from './styles'
+import { QuantityButton } from '../Checkout/styles'
 import CoffeeBig from '../../assets/coffee_big.png'
 import Americano from '../../assets/Coffee-Types/Type=Americano.png'
 import Arabe from '../../assets/Coffee-Types/Type=Árabe.png'
@@ -29,7 +38,6 @@ import {
   Plus,
   Minus,
 } from 'phosphor-react'
-import { QuantityButton } from '../Checkout/styles'
 
 interface SingleCoffee {
   image: string
@@ -199,84 +207,76 @@ export function Home() {
               Com o Coffee Delivery você recebe seu café onde estiver, a
               qualquer hora
             </span>
-            <ul>
+            <PositivePointsContainer>
               <li>
-                <span className={'cart'}>
+                <IconContainer iconBackgroundColor="darkYellow">
                   <ShoppingCart weight="fill" color="white" />
-                </span>
+                </IconContainer>
                 Compra simples e segura
               </li>
               <li>
-                <span className={'timer'}>
+                <IconContainer iconBackgroundColor="yellow">
                   <Timer weight="fill" color="white" />
-                </span>
+                </IconContainer>
                 Entrega rápida e rastreada
               </li>
               <li>
-                <span className={'package'}>
+                <IconContainer iconBackgroundColor="gray">
                   <Package weight="fill" color="white" />
-                </span>
+                </IconContainer>
                 Embalagem mantém o café intacto
               </li>
               <li>
-                <span>
+                <IconContainer iconBackgroundColor="purple">
                   <Coffee weight="fill" color="white" />
-                </span>
+                </IconContainer>
                 O café chega fresquinho até você
               </li>
-            </ul>
+            </PositivePointsContainer>
           </TextContainer>
-          <img src={CoffeeBig} alt="Big coffee" className="bigCoffee" />
+          <img src={CoffeeBig} alt="Big coffee" />
         </DescriptionContainer>
       </BackgroundImage>
       <CoffeeList>
-        <h2 className="list-title">Nossos cafés</h2>
-        <ul>
+        <h2>Nossos cafés</h2>
+        <AllCoffeesContainer>
           {coffees.map((coffee) => {
             return (
-              <div className="cardSettings" key={coffee.id}>
+              <CardSettings key={coffee.id}>
                 <img src={coffee.image} alt="Foto do Café" />
-                <ul className="tagSettings">
-                  {coffee.tagTradicional ? (
-                    <li className="tag">TRADICIONAL</li>
-                  ) : null}
-                  {coffee.tagEspecial ? (
-                    <li className="tag">ESPECIAL</li>
-                  ) : null}
-                  {coffee.tagComLeite ? (
-                    <li className="tag">COM LEITE</li>
-                  ) : null}
-                  {coffee.tagAlcoolico ? (
-                    <li className="tag">ALCÓOLICO</li>
-                  ) : null}
-                  {coffee.tagGelado ? <li className="tag">GELADO</li> : null}
-                </ul>
+                <TagContainer>
+                  {coffee.tagTradicional ? <Tags>TRADICIONAL</Tags> : null}
+                  {coffee.tagEspecial ? <Tags>ESPECIAL</Tags> : null}
+                  {coffee.tagComLeite ? <Tags>COM LEITE</Tags> : null}
+                  {coffee.tagAlcoolico ? <Tags>ALCÓOLICO</Tags> : null}
+                  {coffee.tagGelado ? <Tags>GELADO</Tags> : null}
+                </TagContainer>
                 <h3>{coffee.name}</h3>
                 <label>{coffee.description}</label>
                 <CardBuy>
-                  <div className="price">
+                  <ThisCoffeePrice>
                     <b>R$</b>
-                    <b className="thisPrice">{coffee.price}</b>
-                  </div>
-                  <div className="toBuy">
+                    <b>{coffee.price}</b>
+                  </ThisCoffeePrice>
+                  <div>
                     <QuantityButton>
                       <button>
-                        <Minus className="symbol" />
+                        <Minus />
                       </button>
                       {coffee.howMany}
                       <button>
-                        <Plus className="symbol two" />
+                        <Plus className="two" />
                       </button>
                     </QuantityButton>
-                    <button className="cart">
+                    <CartButton>
                       <ShoppingCart weight="fill" size={24} />
-                    </button>
+                    </CartButton>
                   </div>
                 </CardBuy>
-              </div>
+              </CardSettings>
             )
           })}
-        </ul>
+        </AllCoffeesContainer>
       </CoffeeList>
     </HomeContainer>
   )
