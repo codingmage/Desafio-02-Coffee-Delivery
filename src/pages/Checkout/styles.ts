@@ -97,12 +97,9 @@ export const OrderDetail = styled.div`
 export const AddressInput = styled.div`
   margin-top: 2rem;
   width: 100%;
-
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 
   div {
     display: flex;
@@ -230,6 +227,11 @@ export const CartContainer = styled.div`
     display: flex;
     justify-content: space-between;
   }
+
+  a {
+    flex-grow: 1;
+    width: 100%;
+  }
 `
 
 export const CoffeeContainer = styled.div`
@@ -313,8 +315,13 @@ export const ConfirmButton = styled.button`
   border-radius: 6px;
   font-weight: bold;
   color: ${(props) => props.theme.white};
+  width: 100%;
 
   &:hover {
     background-color: ${(props) => props.theme['yellow-dark']};
+  }
+
+  &:disabled {
+    cursor: not-allowed;
   }
 `

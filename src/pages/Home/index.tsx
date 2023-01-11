@@ -30,32 +30,13 @@ import Irlandes from '../../assets/Coffee-Types/Type=Irlandês.png'
 import Latte from '../../assets/Coffee-Types/Type=Latte.png'
 import Macchiato from '../../assets/Coffee-Types/Type=Macchiato.png'
 import Mochaccino from '../../assets/Coffee-Types/Type=Mochaccino.png'
-import {
-  ShoppingCart,
-  Timer,
-  Package,
-  Coffee,
-  Plus,
-  Minus,
-} from 'phosphor-react'
-
-interface SingleCoffee {
-  image: string
-  id: number
-  name: string
-  description: string
-  tagTradicional?: boolean
-  tagGelado?: boolean
-  tagComLeite?: boolean
-  tagEspecial?: boolean
-  tagAlcoolico?: boolean
-  price: string
-  howMany: number
-}
+import { ShoppingCart, Timer, Package, Coffee } from 'phosphor-react'
+import { useState } from 'react'
+import { CoffeeCardBase, SingleCoffee } from './components/CoffeeCardBase'
 
 const coffees: SingleCoffee[] = [
   {
-    id: Math.random(),
+    id: 1,
     image: Expresso,
     name: 'Expresso Tradicional',
     tagTradicional: true,
@@ -64,7 +45,7 @@ const coffees: SingleCoffee[] = [
     howMany: 1,
   },
   {
-    id: Math.random(),
+    id: 2,
     image: Americano,
     name: 'Expresso Americano',
     tagTradicional: true,
@@ -73,7 +54,7 @@ const coffees: SingleCoffee[] = [
     howMany: 1,
   },
   {
-    id: Math.random(),
+    id: 3,
     image: ExpressoCremoso,
     name: 'Expresso Cremoso',
     tagTradicional: true,
@@ -82,7 +63,7 @@ const coffees: SingleCoffee[] = [
     howMany: 1,
   },
   {
-    id: Math.random(),
+    id: 4,
     image: CafeGelado,
     name: 'Expresso Gelado',
     tagTradicional: true,
@@ -92,7 +73,7 @@ const coffees: SingleCoffee[] = [
     howMany: 1,
   },
   {
-    id: Math.random(),
+    id: 5,
     image: CafeComLeite,
     name: 'Café com Leite',
     tagTradicional: true,
@@ -102,7 +83,7 @@ const coffees: SingleCoffee[] = [
     howMany: 1,
   },
   {
-    id: Math.random(),
+    id: 6,
     image: Latte,
     name: 'Latte',
     tagTradicional: true,
@@ -113,7 +94,7 @@ const coffees: SingleCoffee[] = [
     howMany: 1,
   },
   {
-    id: Math.random(),
+    id: 7,
     image: Capuccino,
     name: 'Capuccino',
     tagTradicional: true,
@@ -124,7 +105,7 @@ const coffees: SingleCoffee[] = [
     howMany: 1,
   },
   {
-    id: Math.random(),
+    id: 8,
     image: Macchiato,
     name: 'Macchiato',
     tagTradicional: true,
@@ -135,7 +116,7 @@ const coffees: SingleCoffee[] = [
     howMany: 1,
   },
   {
-    id: Math.random(),
+    id: 9,
     image: Mochaccino,
     name: 'Mochaccino',
     tagTradicional: true,
@@ -145,7 +126,7 @@ const coffees: SingleCoffee[] = [
     howMany: 1,
   },
   {
-    id: Math.random(),
+    id: 10,
     image: ChocolateQuente,
     name: 'Chocolate Quente',
     tagComLeite: true,
@@ -155,7 +136,7 @@ const coffees: SingleCoffee[] = [
     howMany: 1,
   },
   {
-    id: Math.random(),
+    id: 11,
     image: Cubano,
     name: 'Cubano',
     tagGelado: true,
@@ -167,7 +148,7 @@ const coffees: SingleCoffee[] = [
     howMany: 1,
   },
   {
-    id: Math.random(),
+    id: 12,
     image: Havaiano,
     name: 'Havaiano',
     tagEspecial: true,
@@ -176,7 +157,7 @@ const coffees: SingleCoffee[] = [
     howMany: 1,
   },
   {
-    id: Math.random(),
+    id: 13,
     image: Arabe,
     name: 'Árabe',
     tagEspecial: true,
@@ -185,7 +166,7 @@ const coffees: SingleCoffee[] = [
     howMany: 1,
   },
   {
-    id: Math.random(),
+    id: 14,
     image: Irlandes,
     name: 'Irlandês',
     tagEspecial: true,
@@ -197,6 +178,15 @@ const coffees: SingleCoffee[] = [
 ]
 
 export function Home() {
+  /*   const [cart, setCart] = useState<SingleCoffee[]>([])
+
+  function handleSendToNewCart(data: SingleCoffee) { */
+  /*     const newCart: SingleCoffee = {
+      
+    } 
+     setCart([...cart, newCart]) 
+    } */
+
   return (
     <HomeContainer>
       <BackgroundImage>
@@ -242,38 +232,20 @@ export function Home() {
         <AllCoffeesContainer>
           {coffees.map((coffee) => {
             return (
-              <CardSettings key={coffee.id}>
-                <img src={coffee.image} alt="Foto do Café" />
-                <TagContainer>
-                  {coffee.tagTradicional ? <Tags>TRADICIONAL</Tags> : null}
-                  {coffee.tagEspecial ? <Tags>ESPECIAL</Tags> : null}
-                  {coffee.tagComLeite ? <Tags>COM LEITE</Tags> : null}
-                  {coffee.tagAlcoolico ? <Tags>ALCÓOLICO</Tags> : null}
-                  {coffee.tagGelado ? <Tags>GELADO</Tags> : null}
-                </TagContainer>
-                <h3>{coffee.name}</h3>
-                <label>{coffee.description}</label>
-                <CardBuy>
-                  <ThisCoffeePrice>
-                    <b>R$</b>
-                    <b>{coffee.price}</b>
-                  </ThisCoffeePrice>
-                  <div>
-                    <QuantityButton>
-                      <button>
-                        <Minus />
-                      </button>
-                      {coffee.howMany}
-                      <button>
-                        <Plus className="two" />
-                      </button>
-                    </QuantityButton>
-                    <CartButton>
-                      <ShoppingCart weight="fill" size={24} />
-                    </CartButton>
-                  </div>
-                </CardBuy>
-              </CardSettings>
+              <CoffeeCardBase
+                key={coffee.id}
+                id={coffee.id}
+                image={coffee.image}
+                name={coffee.name}
+                description={coffee.description}
+                tagTradicional={coffee.tagTradicional}
+                tagGelado={coffee.tagGelado}
+                tagComLeite={coffee.tagComLeite}
+                tagEspecial={coffee.tagEspecial}
+                tagAlcoolico={coffee.tagAlcoolico}
+                price={coffee.price}
+                howMany={coffee.howMany}
+              />
             )
           })}
         </AllCoffeesContainer>

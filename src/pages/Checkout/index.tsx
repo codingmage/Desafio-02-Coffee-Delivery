@@ -32,6 +32,10 @@ import {
 } from 'phosphor-react'
 
 import Expresso from '../../assets/Coffee-Types/Type=Expresso.png'
+import { NavLink } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as zod from 'zod'
 
 interface CoffeesBought {
   image: string
@@ -58,10 +62,53 @@ const cartCoffees: CoffeesBought[] = [
   },
 ]
 
+/* const newOrderValidationSchema = zod.object({
+  cep: zod.number().min(1, 'Informe seu CEP'),
+  rua: zod.string().min(1, 'Informe sua rua'),
+  numero: zod.number().min(1, 'Informe seu número'),
+  bairro: zod.string().min(1, 'Informe seu bairro'),
+  cidade: zod.string().min(1, 'Informe sua cidade'),
+  uf: zod.string().min(2).max(2, 'Informe sua UF'),
+}) */
+
+interface NewOrderData {
+  cep: number
+  rua: string
+  numero: number
+  bairro: string
+  cidade: string
+  uf: string
+  complemento?: string
+}
+
 export function Checkout() {
+  const { register, handleSubmit, watch, reset } = useForm<NewOrderData>({
+    /* resolver: zodResolver(newOrderValidationSchema), */
+    defaultValues: {
+      cep: undefined,
+      rua: '',
+      numero: undefined,
+      bairro: '',
+      cidade: '',
+      uf: '',
+    },
+  })
+
+  function handleCreateNewOrder(data: NewOrderData) {
+    console.log(data)
+    reset()
+  }
+
+  /*   const cep = watch('cep')
+  const rua = watch('rua')
+  const numero = watch('numero')
+  const bairro = watch('bairro')
+  const cidade = watch('cidade')
+  const uf = watch('uf')
+ */
   return (
     <CheckoutContainer>
-      <form action="">
+      <form onSubmit={handleSubmit(handleCreateNewOrder)} action="">
         <div>
           <h2>Complete seu pedido</h2>
           <OrderDetail>
@@ -75,20 +122,59 @@ export function Checkout() {
               </div>
             </LabelContainer>
             <AddressInput>
-              <form action="">
-                <FirstInput type="text" placeholder="CEP" required />
-                <BaseInput type="text" placeholder="Rua" required />
-                <div>
-                  <FirstInput type="text" placeholder="Número" required />
-                  <BaseInput type="text" placeholder="Complemento" />
-                </div>
-                {/*               <div className="optional">Opcional</div> */}
-                <div>
-                  <FirstInput type="text" placeholder="Bairro" required />
-                  <BaseInput type="text" placeholder="Cidade" required />
-                  <LastInput type="text" placeholder="UF" required />
-                </div>
-              </form>
+              <FirstInput
+                id="cep"
+                type="text"
+                placeholder="CEP"
+                required
+                {...register('cep')}
+              />
+              <BaseInput
+                id="rua"
+                type="text"
+                placeholder="Rua"
+                required
+                {...register('rua')}
+              />
+              <div>
+                <FirstInput
+                  id="numero"
+                  type="text"
+                  placeholder="Número"
+                  required
+                  {...register('numero')}
+                />
+                <BaseInput
+                  id="complemento"
+                  type="text"
+                  placeholder="Complemento"
+                  {...register('complemento')}
+                />
+              </div>
+              {/*               <div className="optional">Opcional</div> */}
+              <div>
+                <FirstInput
+                  id="bairro"
+                  type="text"
+                  placeholder="Bairro"
+                  required
+                  {...register('bairro')}
+                />
+                <BaseInput
+                  id="cidade"
+                  type="text"
+                  placeholder="Cidade"
+                  required
+                  {...register('cidade')}
+                />
+                <LastInput
+                  id="uf"
+                  type="text"
+                  placeholder="UF"
+                  required
+                  {...register('uf')}
+                />
+              </div>
             </AddressInput>
           </OrderDetail>
           <PaymentDetail>
@@ -174,7 +260,12 @@ export function Checkout() {
                 Total <span>R$ 33,20</span>
               </span>
             </TotalContainer>
-            <ConfirmButton type="submit">CONFIRMAR PEDIDO</ConfirmButton>
+            <ConfirmButton /* disabled  */ type="submit">
+              CONFIRMAR PEDIDO
+            </ConfirmButton>
+            {/*             <NavLink to={'/success'}>
+              
+            </NavLink> */}
           </CartContainer>
         </CoffeeBought>
       </form>
