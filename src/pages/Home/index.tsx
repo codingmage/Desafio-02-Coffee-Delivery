@@ -4,15 +4,9 @@ import {
   TextContainer,
   CoffeeList,
   BackgroundImage,
-  CardBuy,
   PositivePointsContainer,
-  CardSettings,
-  AllCoffeesContainer,
-  TagContainer,
-  Tags,
   IconContainer,
-  ThisCoffeePrice,
-  CartButton,
+  AllCoffeesContainer,
 } from './styles'
 import { QuantityButton } from '../Checkout/styles'
 import CoffeeBig from '../../assets/coffee_big.png'

@@ -26,6 +26,7 @@ export interface SingleCoffee {
 
 export function CoffeeCardBase(coffee: SingleCoffee) {
   const [coffeeQuantity, setCoffeeQuantity] = useState(coffee.howMany)
+  const [cart, setCart] = useState<SingleCoffee[]>([])
 
   function handleMoreCoffee() {
     setCoffeeQuantity((state) => {
@@ -41,6 +42,32 @@ export function CoffeeCardBase(coffee: SingleCoffee) {
         return state - 1
       })
     }
+  }
+
+  function handleAddToCart({ id, name, price, howMany, image }: SingleCoffee) {
+    setCart([...cart, { id, name, price, howMany, image }])
+    // tentar mover a funcao pro home que tem o array com os cafes e adaptar o codigo aqui
+    // improvavel pq se nao ele n mostraria nada no resto... hmm...
+    console.log(cart)
+    /*     const exist = cart.find((onecoffee) => onecoffee.id === data.id)
+    if (exist) {
+      setCart(
+        cart.map((onecoffee) =>
+          onecoffee.id === data.id
+            ? {
+                ...exist,
+                howMany: exist.howMany + coffeeQuantity,
+              }
+            : onecoffee,
+        ),
+      )
+    } else {
+      setCart((state) => [...state, { ...data.howMany }])
+    }
+
+    console.log(cart)
+ */
+    console.log(coffee.id, coffeeQuantity)
   }
 
   return (
@@ -70,7 +97,7 @@ export function CoffeeCardBase(coffee: SingleCoffee) {
               <Plus className="two" />
             </button>
           </QuantityButton>
-          <CartButton>
+          <CartButton onClick={handleAddToCart}>
             <ShoppingCart weight="fill" size={24} />
           </CartButton>
         </div>

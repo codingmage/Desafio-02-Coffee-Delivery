@@ -32,7 +32,7 @@ import {
 } from 'phosphor-react'
 
 import Expresso from '../../assets/Coffee-Types/Type=Expresso.png'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as zod from 'zod'
@@ -93,7 +93,6 @@ export function Checkout() {
       uf: '',
     },
   })
-
   function handleCreateNewOrder(data: NewOrderData) {
     console.log(data)
     reset()

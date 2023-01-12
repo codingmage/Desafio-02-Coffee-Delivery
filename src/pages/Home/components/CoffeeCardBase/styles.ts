@@ -1,12 +1,5 @@
 import styled from 'styled-components'
 
-export const AllCoffeesContainer = styled.ul`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  margin-top: 2.5rem;
-`
-
 export const CardSettings = styled.li`
   width: 16rem;
   height: 17.3rem;
