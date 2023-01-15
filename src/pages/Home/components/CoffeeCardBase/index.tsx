@@ -1,5 +1,6 @@
 import { Minus, Plus, ShoppingCart } from 'phosphor-react'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import { CartContext, SingleCoffee } from '../..'
 import { QuantityButton } from '../../../Checkout/styles'
 import {
   CardBuy,
@@ -10,23 +11,9 @@ import {
   ThisCoffeePrice,
 } from './styles'
 
-export interface SingleCoffee {
-  image: string
-  id: number
-  name: string
-  description?: string
-  tagTradicional?: boolean
-  tagGelado?: boolean
-  tagComLeite?: boolean
-  tagEspecial?: boolean
-  tagAlcoolico?: boolean
-  price: string
-  howMany: number
-}
-
 export function CoffeeCardBase(coffee: SingleCoffee) {
-  const [coffeeQuantity, setCoffeeQuantity] = useState(coffee.howMany)
-  const [cart, setCart] = useState<SingleCoffee[]>([])
+  const { newCart, sendToCart } = useContext(CartContext)
+  const [coffeeQuantity, setCoffeeQuantity] = useState(1)
 
   function handleMoreCoffee() {
     setCoffeeQuantity((state) => {
@@ -44,11 +31,16 @@ export function CoffeeCardBase(coffee: SingleCoffee) {
     }
   }
 
-  function handleAddToCart({ id, name, price, howMany, image }: SingleCoffee) {
-    setCart([...cart, { id, name, price, howMany, image }])
+  function handleAddToCart(data: SingleCoffee) {
+    sendToCart(data)
+
+    //  const baseItem = coffee.id
+    //  const baseItemName = coffee.name
+    //  const itemObject = { baseItem, baseItemName }
+    //  setCart((state) => [...state, itemObject])
     // tentar mover a funcao pro home que tem o array com os cafes e adaptar o codigo aqui
     // improvavel pq se nao ele n mostraria nada no resto... hmm...
-    console.log(cart)
+    //  console.log(cart)
     /*     const exist = cart.find((onecoffee) => onecoffee.id === data.id)
     if (exist) {
       setCart(
@@ -67,7 +59,7 @@ export function CoffeeCardBase(coffee: SingleCoffee) {
 
     console.log(cart)
  */
-    console.log(coffee.id, coffeeQuantity)
+    //  console.log(coffee.id, coffeeQuantity)
   }
 
   return (
@@ -97,7 +89,7 @@ export function CoffeeCardBase(coffee: SingleCoffee) {
               <Plus className="two" />
             </button>
           </QuantityButton>
-          <CartButton onClick={handleAddToCart}>
+          <CartButton onClick={() => handleAddToCart(coffee)}>
             <ShoppingCart weight="fill" size={24} />
           </CartButton>
         </div>

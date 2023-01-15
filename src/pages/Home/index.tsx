@@ -25,10 +25,24 @@ import Latte from '../../assets/Coffee-Types/Type=Latte.png'
 import Macchiato from '../../assets/Coffee-Types/Type=Macchiato.png'
 import Mochaccino from '../../assets/Coffee-Types/Type=Mochaccino.png'
 import { ShoppingCart, Timer, Package, Coffee } from 'phosphor-react'
-import { useState } from 'react'
-import { CoffeeCardBase, SingleCoffee } from './components/CoffeeCardBase'
+import { createContext, useState } from 'react'
+import { CoffeeCardBase } from './components/CoffeeCardBase'
 
-const coffees: SingleCoffee[] = [
+export interface SingleCoffee {
+  image: string
+  id: number
+  name: string
+  description?: string
+  tagTradicional?: boolean
+  tagGelado?: boolean
+  tagComLeite?: boolean
+  tagEspecial?: boolean
+  tagAlcoolico?: boolean
+  price: string
+  coffeeQuantity: number
+}
+
+const initialCoffees: SingleCoffee[] = [
   {
     id: 1,
     image: Expresso,
@@ -36,7 +50,7 @@ const coffees: SingleCoffee[] = [
     tagTradicional: true,
     description: 'O tradicional café feito com água quente e grãos moídos',
     price: '9,90',
-    howMany: 1,
+    coffeeQuantity: 1,
   },
   {
     id: 2,
@@ -45,7 +59,7 @@ const coffees: SingleCoffee[] = [
     tagTradicional: true,
     description: 'Expresso diluído, menos intenso que o tradicional',
     price: '9,90',
-    howMany: 1,
+    coffeeQuantity: 1,
   },
   {
     id: 3,
@@ -54,7 +68,7 @@ const coffees: SingleCoffee[] = [
     tagTradicional: true,
     description: 'Café expresso tradicional com espuma cremosa',
     price: '9,90',
-    howMany: 1,
+    coffeeQuantity: 1,
   },
   {
     id: 4,
@@ -64,7 +78,7 @@ const coffees: SingleCoffee[] = [
     tagGelado: true,
     description: 'Bebida preparada com café expresso e cubos de gelo',
     price: '9,90',
-    howMany: 1,
+    coffeeQuantity: 1,
   },
   {
     id: 5,
@@ -74,7 +88,7 @@ const coffees: SingleCoffee[] = [
     tagComLeite: true,
     description: 'Meio a meio de expresso tradicional com leite vaporizado',
     price: '9,90',
-    howMany: 1,
+    coffeeQuantity: 1,
   },
   {
     id: 6,
@@ -85,7 +99,7 @@ const coffees: SingleCoffee[] = [
     description:
       'Uma dose de café expresso com o dobro de leite e espuma cremosa',
     price: '9,90',
-    howMany: 1,
+    coffeeQuantity: 1,
   },
   {
     id: 7,
@@ -96,7 +110,7 @@ const coffees: SingleCoffee[] = [
     description:
       'Bebida com canela feita de doses iguais de café, leite e espuma',
     price: '9,90',
-    howMany: 1,
+    coffeeQuantity: 1,
   },
   {
     id: 8,
@@ -107,7 +121,7 @@ const coffees: SingleCoffee[] = [
     description:
       'Café expresso misturado com um pouco de leite quente e espuma',
     price: '9,90',
-    howMany: 1,
+    coffeeQuantity: 1,
   },
   {
     id: 9,
@@ -117,7 +131,7 @@ const coffees: SingleCoffee[] = [
     tagComLeite: true,
     description: 'Café expresso com calda de chocolate, pouco leite e espuma',
     price: '9,90',
-    howMany: 1,
+    coffeeQuantity: 1,
   },
   {
     id: 10,
@@ -127,7 +141,7 @@ const coffees: SingleCoffee[] = [
     tagEspecial: true,
     description: 'Bebida feita com chocolate dissolvido no leite quente e café',
     price: '9,90',
-    howMany: 1,
+    coffeeQuantity: 1,
   },
   {
     id: 11,
@@ -139,7 +153,7 @@ const coffees: SingleCoffee[] = [
     description:
       'Drink gelado de café expresso com rum, creme de leite e hortelã',
     price: '9,90',
-    howMany: 1,
+    coffeeQuantity: 1,
   },
   {
     id: 12,
@@ -148,7 +162,7 @@ const coffees: SingleCoffee[] = [
     tagEspecial: true,
     description: 'Bebida adocicada preparada com café e leite de coco',
     price: '9,90',
-    howMany: 1,
+    coffeeQuantity: 1,
   },
   {
     id: 13,
@@ -157,7 +171,7 @@ const coffees: SingleCoffee[] = [
     tagEspecial: true,
     description: 'Bebida preparada com grãos de café árabe e especiarias',
     price: '9,90',
-    howMany: 1,
+    coffeeQuantity: 1,
   },
   {
     id: 14,
@@ -167,83 +181,142 @@ const coffees: SingleCoffee[] = [
     tagAlcoolico: true,
     description: 'Bebida a base de café, uísque irlandês, açúcar e chantilly',
     price: '9,90',
-    howMany: 1,
+    coffeeQuantity: 1,
   },
 ]
 
+interface CartContextType {
+  newCart: SingleCoffee[] | undefined
+  sendToCart: ({ id }: SingleCoffee) => void
+}
+
+export const CartContext = createContext({} as CartContextType)
+
 export function Home() {
+  const [allCoffees, setAllCoffees] = useState(initialCoffees)
+  const [newCart, setNewCart] = useState<SingleCoffee[]>([])
+
+  function sendToCart(data: SingleCoffee) {
+    const coffeeAlreadyThere = newCart.find((isThere) => isThere.id === data.id)
+    if (coffeeAlreadyThere) {
+      setNewCart(
+        newCart.map((isThere) =>
+          isThere.id === data.id
+            ? {
+                ...coffeeAlreadyThere,
+                coffeeQuantity: coffeeAlreadyThere.coffeeQuantity + 1,
+              }
+            : isThere,
+        ),
+      )
+      console.log(newCart)
+    } else {
+      setNewCart((state) => [...state, data])
+      console.log(newCart)
+    }
+  }
   /*   const [cart, setCart] = useState<SingleCoffee[]>([])
 
   function handleSendToNewCart(data: SingleCoffee) { */
   /*     const newCart: SingleCoffee = {
-      
     } 
      setCart([...cart, newCart]) 
-    } */
+    } 
+    
+    const coffeeAlreadyThere = newCart.find((isThere) => isThere.id === data.id)
+    if (coffeeAlreadyThere) {
+      setNewCart(
+        newCart.map((isThere) =>
+          isThere.id === data.id
+            ? { ...coffeeAlreadyThere, howMany: coffeeAlreadyThere.howMany + 1 }
+            : isThere,
+        ),
+      )
+    } else {
+      setNewCart((state) => [...state, data])
+      console.log(newCart)
+    }
+    
+    
+    */
 
   return (
     <HomeContainer>
-      <BackgroundImage>
-        <DescriptionContainer>
-          <TextContainer>
-            <h1>Encontre o café perfeito para qualquer hora do dia</h1>
-            <span>
-              Com o Coffee Delivery você recebe seu café onde estiver, a
-              qualquer hora
-            </span>
-            <PositivePointsContainer>
-              <li>
-                <IconContainer iconBackgroundColor="darkYellow">
-                  <ShoppingCart weight="fill" color="white" />
-                </IconContainer>
-                Compra simples e segura
-              </li>
-              <li>
-                <IconContainer iconBackgroundColor="yellow">
-                  <Timer weight="fill" color="white" />
-                </IconContainer>
-                Entrega rápida e rastreada
-              </li>
-              <li>
-                <IconContainer iconBackgroundColor="gray">
-                  <Package weight="fill" color="white" />
-                </IconContainer>
-                Embalagem mantém o café intacto
-              </li>
-              <li>
-                <IconContainer iconBackgroundColor="purple">
-                  <Coffee weight="fill" color="white" />
-                </IconContainer>
-                O café chega fresquinho até você
-              </li>
-            </PositivePointsContainer>
-          </TextContainer>
-          <img src={CoffeeBig} alt="Big coffee" />
-        </DescriptionContainer>
-      </BackgroundImage>
-      <CoffeeList>
-        <h2>Nossos cafés</h2>
-        <AllCoffeesContainer>
-          {coffees.map((coffee) => {
+      <CartContext.Provider value={{ newCart, sendToCart }}>
+        <BackgroundImage>
+          <DescriptionContainer>
+            <TextContainer>
+              <h1>Encontre o café perfeito para qualquer hora do dia</h1>
+              <span>
+                Com o Coffee Delivery você recebe seu café onde estiver, a
+                qualquer hora
+              </span>
+              <PositivePointsContainer>
+                <li>
+                  <IconContainer iconBackgroundColor="darkYellow">
+                    <ShoppingCart weight="fill" color="white" />
+                  </IconContainer>
+                  Compra simples e segura
+                </li>
+                <li>
+                  <IconContainer iconBackgroundColor="yellow">
+                    <Timer weight="fill" color="white" />
+                  </IconContainer>
+                  Entrega rápida e rastreada
+                </li>
+                <li>
+                  <IconContainer iconBackgroundColor="gray">
+                    <Package weight="fill" color="white" />
+                  </IconContainer>
+                  Embalagem mantém o café intacto
+                </li>
+                <li>
+                  <IconContainer iconBackgroundColor="purple">
+                    <Coffee weight="fill" color="white" />
+                  </IconContainer>
+                  O café chega fresquinho até você
+                </li>
+              </PositivePointsContainer>
+            </TextContainer>
+            <img src={CoffeeBig} alt="Big coffee" />
+          </DescriptionContainer>
+        </BackgroundImage>
+        <CoffeeList>
+          <h2>Nossos cafés</h2>
+          <AllCoffeesContainer>
+            {initialCoffees.map((coffee) => {
+              return (
+                <CoffeeCardBase
+                  key={coffee.id}
+                  id={coffee.id}
+                  image={coffee.image}
+                  name={coffee.name}
+                  description={coffee.description}
+                  tagTradicional={coffee.tagTradicional}
+                  tagGelado={coffee.tagGelado}
+                  tagComLeite={coffee.tagComLeite}
+                  tagEspecial={coffee.tagEspecial}
+                  tagAlcoolico={coffee.tagAlcoolico}
+                  price={coffee.price}
+                  coffeeQuantity={coffee.coffeeQuantity}
+                />
+              )
+            })}
+          </AllCoffeesContainer>
+        </CoffeeList>
+        <span>
+          {newCart.map((cart) => {
             return (
-              <CoffeeCardBase
-                key={coffee.id}
-                id={coffee.id}
-                image={coffee.image}
-                name={coffee.name}
-                description={coffee.description}
-                tagTradicional={coffee.tagTradicional}
-                tagGelado={coffee.tagGelado}
-                tagComLeite={coffee.tagComLeite}
-                tagEspecial={coffee.tagEspecial}
-                tagAlcoolico={coffee.tagAlcoolico}
-                price={coffee.price}
-                howMany={coffee.howMany}
-              />
+              <span key={cart.id}>
+                {cart.coffeeQuantity}
+                {cart.name}
+                {cart.id}
+                <br />
+              </span>
             )
           })}
-        </AllCoffeesContainer>
-      </CoffeeList>
+        </span>
+      </CartContext.Provider>
     </HomeContainer>
   )
 }
