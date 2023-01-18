@@ -188,6 +188,9 @@ const initialCoffees: SingleCoffee[] = [
 interface CartContextType {
   newCart: SingleCoffee[] | undefined
   sendToCart: ({ id }: SingleCoffee) => void
+  allCoffees: SingleCoffee[]
+  moreCoffee: ({ id }: SingleCoffee) => void
+  lessCoffee: ({ id }: SingleCoffee) => void
 }
 
 export const CartContext = createContext({} as CartContextType)
@@ -195,6 +198,38 @@ export const CartContext = createContext({} as CartContextType)
 export function Home() {
   const [allCoffees, setAllCoffees] = useState(initialCoffees)
   const [newCart, setNewCart] = useState<SingleCoffee[]>([])
+
+  function moreCoffee({ id }: SingleCoffee) {
+    setAllCoffees(
+      allCoffees.map((coffeetype) => {
+        if (coffeetype.id === id) {
+          return {
+            ...coffeetype,
+            coffeeQuantity: coffeetype.coffeeQuantity + 1,
+          }
+        } else {
+          return coffeetype
+        }
+      }),
+    )
+    console.log(newCart)
+  }
+
+  function lessCoffee({ id }: SingleCoffee) {
+    setAllCoffees(
+      allCoffees.map((coffeetype) => {
+        if (coffeetype.id === id && coffeetype.coffeeQuantity > 1) {
+          return {
+            ...coffeetype,
+            coffeeQuantity: coffeetype.coffeeQuantity - 1,
+          }
+        } else {
+          return coffeetype
+        }
+      }),
+    )
+    console.log(newCart)
+  }
 
   function sendToCart(data: SingleCoffee) {
     const coffeeAlreadyThere = newCart.find((isThere) => isThere.id === data.id)
@@ -204,7 +239,8 @@ export function Home() {
           isThere.id === data.id
             ? {
                 ...coffeeAlreadyThere,
-                coffeeQuantity: coffeeAlreadyThere.coffeeQuantity + 1,
+                coffeeQuantity:
+                  coffeeAlreadyThere.coffeeQuantity + data.coffeeQuantity,
               }
             : isThere,
         ),
@@ -242,7 +278,9 @@ export function Home() {
 
   return (
     <HomeContainer>
-      <CartContext.Provider value={{ newCart, sendToCart }}>
+      <CartContext.Provider
+        value={{ newCart, sendToCart, allCoffees, moreCoffee, lessCoffee }}
+      >
         <BackgroundImage>
           <DescriptionContainer>
             <TextContainer>
@@ -284,7 +322,7 @@ export function Home() {
         <CoffeeList>
           <h2>Nossos cafés</h2>
           <AllCoffeesContainer>
-            {initialCoffees.map((coffee) => {
+            {allCoffees.map((coffee) => {
               return (
                 <CoffeeCardBase
                   key={coffee.id}
