@@ -37,3 +37,19 @@ export const NavContainer = styled.nav`
     cursor: pointer;
   }
 `
+
+export const BubbleContainer = styled.span`
+  color: ${(props) => props.theme.white};
+  background-color: ${(props) => props.theme['yellow-dark']};
+  border-radius: 999px;
+  width: 1.2rem;
+  height: 1.22rem;
+  position: absolute;
+  top: 1.5rem;
+  right: 9.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+`

@@ -1,9 +1,17 @@
 import coffee from '../../assets/coffee.svg'
-import { HeaderContainer, NavContainer } from './styles'
+import { BubbleContainer, HeaderContainer, NavContainer } from './styles'
 import { MapPin, ShoppingCart } from 'phosphor-react'
 import { NavLink } from 'react-router-dom'
+import { useContext } from 'react'
+import { CartContext } from '../../contexts/CartContext'
 
 export function Header() {
+  const { newCart, cartQuantity } = useContext(CartContext)
+
+  const isNewCartEmpty = newCart?.length === 0
+
+  const showNonEmptyCart = <BubbleContainer>{cartQuantity}</BubbleContainer>
+
   return (
     <HeaderContainer>
       <NavLink to="/">
@@ -20,6 +28,7 @@ export function Header() {
         </div>
         <NavLink to="/checkout" title="Carrinho">
           <ShoppingCart weight="fill" size={24} />
+          {isNewCartEmpty ? null : showNonEmptyCart}
         </NavLink>
       </NavContainer>
     </HeaderContainer>

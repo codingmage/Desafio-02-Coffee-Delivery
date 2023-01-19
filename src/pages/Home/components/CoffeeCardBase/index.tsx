@@ -1,6 +1,6 @@
 import { Minus, Plus, ShoppingCart } from 'phosphor-react'
 import { useContext, useState } from 'react'
-import { CartContext } from '../..'
+import { CartContext } from '../../../../contexts/CartContext'
 import { QuantityButton } from '../../../Checkout/styles'
 import {
   CardBuy,

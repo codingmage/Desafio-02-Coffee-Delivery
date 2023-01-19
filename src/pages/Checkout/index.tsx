@@ -36,31 +36,8 @@ import { Link, NavLink } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as zod from 'zod'
-
-interface CoffeesBought {
-  image: string
-  name: string
-  price: string
-  howMany: number
-  id: number
-}
-
-const cartCoffees: CoffeesBought[] = [
-  {
-    image: Expresso,
-    name: 'Expresso Tradicional',
-    price: '9,90',
-    id: 1,
-    howMany: 1,
-  },
-  {
-    image: Expresso,
-    name: 'Latte',
-    price: '9,90',
-    id: 2,
-    howMany: 1,
-  },
-]
+import { useContext } from 'react'
+import { CartContext, SingleCoffee } from '../../contexts/CartContext'
 
 /* const newOrderValidationSchema = zod.object({
   cep: zod.number().min(1, 'Informe seu CEP'),
@@ -82,6 +59,8 @@ interface NewOrderData {
 }
 
 export function Checkout() {
+  const { newCart, moreCoffeeOnCart, lessCoffeeOnCart, deleteFromNewCart } =
+    useContext(CartContext)
   const { register, handleSubmit, watch, reset } = useForm<NewOrderData>({
     /* resolver: zodResolver(newOrderValidationSchema), */
     defaultValues: {
@@ -93,9 +72,22 @@ export function Checkout() {
       uf: '',
     },
   })
+
   function handleCreateNewOrder(data: NewOrderData) {
     console.log(data)
     reset()
+  }
+
+  function handleMoreCoffeeOnCart(coffee: SingleCoffee) {
+    moreCoffeeOnCart(coffee)
+  }
+
+  function handleLessCoffeeOnCart(coffee: SingleCoffee) {
+    lessCoffeeOnCart(coffee)
+  }
+
+  function handleDeleteCoffee(coffee: SingleCoffee) {
+    deleteFromNewCart(coffee)
   }
 
   /*   const cep = watch('cep')
@@ -216,7 +208,7 @@ export function Checkout() {
           <h2>Cafés selecionados </h2>
           <CartContainer>
             <ul>
-              {cartCoffees.map((coffee) => {
+              {newCart?.map((coffee) => {
                 return (
                   <li key={coffee.id}>
                     <CoffeeContainer>
@@ -225,15 +217,24 @@ export function Checkout() {
                         <p>{coffee.name}</p>
                         <CartButtonWrapper>
                           <QuantityButton>
-                            <button type="button">
+                            <button
+                              type="button"
+                              onClick={() => handleLessCoffeeOnCart(coffee)}
+                            >
                               <Minus />
                             </button>
-                            <span>{coffee.howMany}</span>
-                            <button type="button">
+                            <span>{coffee.coffeeQuantity}</span>
+                            <button
+                              type="button"
+                              onClick={() => handleMoreCoffeeOnCart(coffee)}
+                            >
                               <Plus />
                             </button>
                           </QuantityButton>
-                          <CardButton type="button">
+                          <CardButton
+                            type="button"
+                            onClick={() => handleDeleteCoffee(coffee)}
+                          >
                             <span>
                               <Trash size={16} className="icon" />
                               REMOVER
