@@ -62,9 +62,6 @@ export function Checkout() {
     deleteFromNewCart,
     cartValue,
     createNewOrder,
-    /*     payment1,
-    payment2,
-    payment3, */
   } = useContext(CartContext)
 
   const { register, handleSubmit, watch, reset } = useForm<NewOrderData>({
@@ -197,7 +194,6 @@ export function Checkout() {
               </div>
             </LabelContainer>
             <PaymentButton>
-              {/* add active button class function */}
               <ButtonSelection>
                 <input
                   type="radio"
@@ -220,7 +216,7 @@ export function Checkout() {
                   value="debitCard"
                   {...register('paymentMethod')}
                 />
-                <label htmlFor="debitcard">
+                <label htmlFor="debitCard">
                   <span className="icon">
                     <Bank size={16} />
                   </span>
@@ -312,7 +308,6 @@ export function Checkout() {
           </CartContainer>
         </CoffeeBought>
       </form>
-      <NavLink to={'../Success'}>Teste</NavLink>
     </CheckoutContainer>
   )
 }

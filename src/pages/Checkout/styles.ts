@@ -36,6 +36,30 @@ export const CheckoutContainer = styled.main`
   }
 `
 
+export const PaymentDetail = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 40rem;
+  background-color: ${(props) => props.theme['base-card']};
+  border-radius: 6px 36px;
+  height: fit-content;
+  margin-top: 0.938rem;
+  padding: 2.5rem;
+  margin-bottom: 2rem;
+
+  .icon {
+    color: ${(props) => props.theme.purple};
+  }
+`
+
+export const PaymentButton = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-grow: 0;
+`
+
 export const CardButton = styled.button`
   background-color: ${(props) => props.theme['base-button']};
   color: ${(props) => props.theme['base-text']};
@@ -61,7 +85,6 @@ export const ButtonSelection = styled.div`
   color: ${(props) => props.theme['base-text']};
   font-size: 0.75rem;
   border-radius: 6px;
-  padding: 1rem;
   gap: 0.75rem;
   flex-basis: 0;
   flex-grow: 1;
@@ -70,6 +93,29 @@ export const ButtonSelection = styled.div`
   align-items: center;
   line-height: 160%;
   border: 0;
+
+  input[type='radio'] {
+    opacity: 0;
+    position: fixed;
+    width: 0;
+  }
+
+  label {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    padding: 1rem;
+    flex-grow: 1;
+    justify-content: flex-start;
+    gap: 0.75rem;
+    border-radius: 6px;
+  }
+
+  input[type='radio']:checked + label {
+    background-color: ${(props) => props.theme['purple-light']};
+    outline: 1px solid;
+    outline-color: ${(props) => props.theme.purple};
+  }
 
   &:hover {
     background-color: ${(props) => props.theme['base-hover']};
@@ -87,12 +133,52 @@ export const ButtonSelection = styled.div`
     outline-color: ${(props) => props.theme.purple};
   }
 
+  /*   input[type='radio'] {
+    opacity: 0;
+    position: fixed;
+    width: 0;
+  }
+
+  label {
+    display: inline-block;
+    background-color: #ddd;
+    font-family: sans-serif, Arial;
+    font-size: 16px;
+    border: 2px solid #444;
+    border-radius: 4px;
+    padding: 1rem;
+  }
+
+  input[type='radio']:checked + label {
+    background-color: ${(props) => props.theme['purple-light']};
+        outline: 1px solid;
+    outline-color: ${(props) => props.theme.purple};
+  } */
+
   /* .active {
         background-color: ${(props) => props.theme['purple-light']};
     outline: 1px solid;
     outline-color: ${(props) => props.theme.purple};
   }
   check bookmark active element */
+
+  /*   label {
+    display: flex;
+    flex-wrap: nowrap;
+    cursor: pointer;
+    z-index: 90;
+  } */
+
+  /*   input[type='radio'] {
+    display: none;
+    z-index: 100;
+  }
+
+  input:checked + label {
+    background-color: ${(props) => props.theme['purple-light']};
+    outline: 1px solid;
+    outline-color: ${(props) => props.theme.purple};
+  } */
 `
 
 export const LabelContainer = styled.label`
@@ -182,30 +268,6 @@ export const FirstInput = styled(BaseInput)`
 
 export const LastInput = styled(BaseInput)`
   max-width: 3.8rem;
-`
-
-export const PaymentDetail = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  width: 40rem;
-  background-color: ${(props) => props.theme['base-card']};
-  border-radius: 6px 36px;
-  height: fit-content;
-  margin-top: 0.938rem;
-  padding: 2.5rem;
-  margin-bottom: 2rem;
-
-  .icon {
-    color: ${(props) => props.theme.purple};
-  }
-`
-
-export const PaymentButton = styled.div`
-  display: flex;
-  justify-content: space-between;
-  gap: 0.75rem;
-  flex-grow: 0;
 `
 
 export const CoffeeBought = styled.div`

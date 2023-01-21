@@ -14,6 +14,7 @@ import Macchiato from '../assets/Coffee-Types/Type=Macchiato.png'
 import Mochaccino from '../assets/Coffee-Types/Type=Mochaccino.png'
 import { createContext, ReactNode, useState } from 'react'
 
+// Setting up a single coffee's props
 export interface SingleCoffee {
   image: string
   id: number
@@ -28,6 +29,7 @@ export interface SingleCoffee {
   coffeeQuantity: number
 }
 
+// list of coffee types
 const initialCoffees: SingleCoffee[] = [
   {
     id: 1,
@@ -171,6 +173,7 @@ const initialCoffees: SingleCoffee[] = [
   },
 ]
 
+// information from form
 export interface NewOrderData {
   zip_code: number
   street: string
@@ -182,6 +185,7 @@ export interface NewOrderData {
   paymentMethod: string
 }
 
+// creating function & variables context
 interface CartContextType {
   newCart: SingleCoffee[] | undefined
   deleteFromNewCart: ({ id }: SingleCoffee) => void
@@ -195,12 +199,9 @@ interface CartContextType {
   cartValue: number
   createNewOrder: (data: NewOrderData) => void
   newPaymentDetails: NewOrderData | null
-  /*   payment1: () => void
-  payment2: () => void
-  payment3: () => void
-  payment: number | undefined */
 }
 
+// telling what's inside the context
 interface CartContextProviderProps {
   children: ReactNode
 }
@@ -208,7 +209,10 @@ interface CartContextProviderProps {
 export const CartContext = createContext({} as CartContextType)
 
 export function CartContextProvider({ children }: CartContextProviderProps) {
+  // creating the array for immutability
   const [allCoffees, setAllCoffees] = useState(initialCoffees)
+
+  // creating the customer's cart
   const [newCart, setNewCart] = useState<SingleCoffee[]>([])
 
   function moreCoffee({ id }: SingleCoffee) {
@@ -273,6 +277,7 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
     )
   }
 
+  // adding the coffee to the newly created cart
   function sendToCart(data: SingleCoffee) {
     const coffeeAlreadyThere = newCart.find((isThere) => isThere.id === data.id)
     if (coffeeAlreadyThere) {
@@ -298,54 +303,33 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
     setNewCart(newCart.filter((coffee) => coffee.id !== data.id))
   }
 
+  // showing the number of items on cart, minding their quantity
   const cartQuantity = newCart.reduce(
     (accumulator, currentValue) => accumulator + currentValue.coffeeQuantity,
     0,
   )
 
+  // getting each coffee's total price (price * quantity)
   const multipliedPrice = newCart.map(
     (convertedCoffeePrice) =>
       convertedCoffeePrice.coffeeQuantity * convertedCoffeePrice.price,
   )
 
+  // total price for ALL coffees
   const cartValue = multipliedPrice.reduce(
     (accumulator, currentValue) => accumulator + currentValue,
     0,
   )
 
+  // setting up empty customer order information
   const [newPaymentDetails, setnewPaymentDetails] =
     useState<NewOrderData | null>(null)
 
   function createNewOrder(data: NewOrderData) {
-    /*     const newPaymentDetails: NewOrderData = {
-      zip_code: data.zip_code,
-      street: data.street,
-      number: data.number,
-      district: data.district,
-      city: data.city,
-      state: data.state,
-      additional_information: data.additional_information,
-      tipo: data.tipo,
-    } */
-
     setnewPaymentDetails(data)
     console.log(newPaymentDetails)
     setNewCart([])
   }
-
-  /*   const [payment, setPayment] = useState(newPaymentDetails?.tipo)
-
-  function payment1() {
-    setPayment(1)
-  }
-
-  function payment2() {
-    setPayment(2)
-  }
-
-  function payment3() {
-    setPayment(3)
-  } */
 
   return (
     <CartContext.Provider
@@ -362,10 +346,6 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
         cartValue,
         createNewOrder,
         newPaymentDetails,
-        /*         payment1,
-        payment2,
-        payment3,
-        payment, */
       }}
     >
       {children}

@@ -13,7 +13,7 @@ import { useContext } from 'react'
 import { CartContext } from '../../contexts/CartContext'
 
 export function Success() {
-  const { newPaymentDetails /* payment */ } = useContext(CartContext)
+  const { newPaymentDetails } = useContext(CartContext)
 
   const creditPayment = newPaymentDetails?.paymentMethod === 'creditCard'
   const debitPayment = newPaymentDetails?.paymentMethod === 'debitCard'
@@ -33,7 +33,7 @@ export function Success() {
               <div>
                 Entrega em
                 <b>
-                  street {newPaymentDetails?.street} {newPaymentDetails?.number}{' '}
+                  Rua {newPaymentDetails?.street} {newPaymentDetails?.number}{' '}
                   {newPaymentDetails?.additional_information}
                 </b>
                 <p>
