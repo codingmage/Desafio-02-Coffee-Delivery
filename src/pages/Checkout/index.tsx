@@ -32,50 +32,58 @@ import {
 } from 'phosphor-react'
 
 import Expresso from '../../assets/Coffee-Types/Type=Expresso.png'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, Navigate, NavLink, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as zod from 'zod'
 import { useContext } from 'react'
-import { CartContext, SingleCoffee } from '../../contexts/CartContext'
+import {
+  CartContext,
+  NewOrderData,
+  SingleCoffee,
+} from '../../contexts/CartContext'
 
 /* const newOrderValidationSchema = zod.object({
-  cep: zod.number().min(1, 'Informe seu CEP'),
-  rua: zod.string().min(1, 'Informe sua rua'),
-  numero: zod.number().min(1, 'Informe seu número'),
-  bairro: zod.string().min(1, 'Informe seu bairro'),
-  cidade: zod.string().min(1, 'Informe sua cidade'),
-  uf: zod.string().min(2).max(2, 'Informe sua UF'),
+  zip_code: zod.number().min(1, 'Informe seu zip_code'),
+  street: zod.string().min(1, 'Informe sua street'),
+  number: zod.number().min(1, 'Informe seu número'),
+  district: zod.string().min(1, 'Informe seu district'),
+  city: zod.string().min(1, 'Informe sua city'),
+  state: zod.string().min(2).max(2, 'Informe sua state'),
 }) */
 
-interface NewOrderData {
-  cep: number
-  rua: string
-  numero: number
-  bairro: string
-  cidade: string
-  uf: string
-  complemento?: string
-}
-
 export function Checkout() {
-  const { newCart, moreCoffeeOnCart, lessCoffeeOnCart, deleteFromNewCart } =
-    useContext(CartContext)
+  const navigate = useNavigate()
+
+  const {
+    newCart,
+    moreCoffeeOnCart,
+    lessCoffeeOnCart,
+    deleteFromNewCart,
+    cartValue,
+    createNewOrder,
+    /*     payment1,
+    payment2,
+    payment3, */
+  } = useContext(CartContext)
+
   const { register, handleSubmit, watch, reset } = useForm<NewOrderData>({
     /* resolver: zodResolver(newOrderValidationSchema), */
     defaultValues: {
-      cep: undefined,
-      rua: '',
-      numero: undefined,
-      bairro: '',
-      cidade: '',
-      uf: '',
+      zip_code: undefined,
+      street: '',
+      number: undefined,
+      district: '',
+      city: '',
+      state: '',
+      paymentMethod: '',
     },
   })
 
   function handleCreateNewOrder(data: NewOrderData) {
-    console.log(data)
+    createNewOrder(data)
     reset()
+    navigate('../Success')
   }
 
   function handleMoreCoffeeOnCart(coffee: SingleCoffee) {
@@ -90,13 +98,20 @@ export function Checkout() {
     deleteFromNewCart(coffee)
   }
 
-  /*   const cep = watch('cep')
-  const rua = watch('rua')
-  const numero = watch('numero')
-  const bairro = watch('bairro')
-  const cidade = watch('cidade')
-  const uf = watch('uf')
+  const convertedItemPrice = cartValue.toFixed(2).replace('.', ',')
+  /*   const zip_code = watch('zip_code')
+  const street = watch('street')
+  const number = watch('number')
+  const district = watch('district')
+  const city = watch('city')
+  const state = watch('state')
  */
+
+  const emptyCart = newCart?.length === 0
+
+  const sum = cartValue + 3.5
+  const convertedSum = sum.toFixed(2).replace('.', ',')
+
   return (
     <CheckoutContainer>
       <form onSubmit={handleSubmit(handleCreateNewOrder)} action="">
@@ -114,56 +129,56 @@ export function Checkout() {
             </LabelContainer>
             <AddressInput>
               <FirstInput
-                id="cep"
+                id="zip_code"
                 type="text"
                 placeholder="CEP"
                 required
-                {...register('cep')}
+                {...register('zip_code')}
               />
               <BaseInput
-                id="rua"
+                id="street"
                 type="text"
                 placeholder="Rua"
                 required
-                {...register('rua')}
+                {...register('street')}
               />
               <div>
                 <FirstInput
-                  id="numero"
+                  id="number"
                   type="text"
                   placeholder="Número"
                   required
-                  {...register('numero')}
+                  {...register('number')}
                 />
                 <BaseInput
-                  id="complemento"
+                  id="additional_information"
                   type="text"
                   placeholder="Complemento"
-                  {...register('complemento')}
+                  {...register('additional_information')}
                 />
               </div>
               {/*               <div className="optional">Opcional</div> */}
               <div>
                 <FirstInput
-                  id="bairro"
+                  id="district"
                   type="text"
                   placeholder="Bairro"
                   required
-                  {...register('bairro')}
+                  {...register('district')}
                 />
                 <BaseInput
-                  id="cidade"
+                  id="city"
                   type="text"
                   placeholder="Cidade"
                   required
-                  {...register('cidade')}
+                  {...register('city')}
                 />
                 <LastInput
-                  id="uf"
+                  id="state"
                   type="text"
                   placeholder="UF"
                   required
-                  {...register('uf')}
+                  {...register('state')}
                 />
               </div>
             </AddressInput>
@@ -183,23 +198,48 @@ export function Checkout() {
             </LabelContainer>
             <PaymentButton>
               {/* add active button class function */}
-              <ButtonSelection type="button">
-                <span className="icon">
-                  <CreditCard size={16} />
-                </span>
-                CARTÃO DE CRÉDITO
+              <ButtonSelection>
+                <input
+                  type="radio"
+                  id="creditCard"
+                  value="creditCard"
+                  required
+                  {...register('paymentMethod')}
+                />
+                <label htmlFor="creditCard">
+                  <span className="icon">
+                    <CreditCard size={16} />
+                  </span>
+                  CARTÃO DE CRÉDITO
+                </label>
               </ButtonSelection>
-              <ButtonSelection type="button">
-                <span className="icon">
-                  <Bank size={16} />
-                </span>
-                CARTÃO DE DÉBITO
+              <ButtonSelection>
+                <input
+                  type="radio"
+                  id="debitCard"
+                  value="debitCard"
+                  {...register('paymentMethod')}
+                />
+                <label htmlFor="debitcard">
+                  <span className="icon">
+                    <Bank size={16} />
+                  </span>
+                  CARTÃO DE DÉBITO
+                </label>
               </ButtonSelection>
-              <ButtonSelection type="button">
-                <span className="icon">
-                  <Money size={16} />
-                </span>
-                DINHEIRO
+              <ButtonSelection>
+                <input
+                  type="radio"
+                  id="cash"
+                  value="cash"
+                  {...register('paymentMethod')}
+                />
+                <label htmlFor="cash">
+                  <span className="icon">
+                    <Money size={16} />
+                  </span>
+                  DINHEIRO
+                </label>
               </ButtonSelection>
             </PaymentButton>
           </PaymentDetail>
@@ -243,7 +283,12 @@ export function Checkout() {
                         </CartButtonWrapper>
                       </div>
                     </CoffeeContainer>
-                    <CoffeePrice>R$ {coffee.price}</CoffeePrice>
+                    <CoffeePrice>
+                      R${' '}
+                      {(coffee.price * coffee.coffeeQuantity)
+                        .toFixed(2)
+                        .replace('.', ',')}
+                    </CoffeePrice>
                     <hr />
                   </li>
                 )
@@ -251,24 +296,23 @@ export function Checkout() {
             </ul>
             <TotalContainer>
               <span>
-                Total de items<span>R$ 29,70</span>
+                Total de items
+                <span>R$ {convertedItemPrice}</span>
               </span>
               <span>
                 Entrega <span>R$ 3,50</span>
               </span>
               <span>
-                Total <span>R$ 33,20</span>
+                Total <span>R$ {convertedSum}</span>
               </span>
             </TotalContainer>
-            <ConfirmButton /* disabled  */ type="submit">
+            <ConfirmButton disabled={emptyCart} type="submit">
               CONFIRMAR PEDIDO
             </ConfirmButton>
-            {/*             <NavLink to={'/success'}>
-              
-            </NavLink> */}
           </CartContainer>
         </CoffeeBought>
       </form>
+      <NavLink to={'../Success'}>Teste</NavLink>
     </CheckoutContainer>
   )
 }

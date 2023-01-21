@@ -21,7 +21,7 @@ export interface SingleCoffee {
   tagComLeite?: boolean
   tagEspecial?: boolean
   tagAlcoolico?: boolean
-  price: string
+  price: number
   coffeeQuantity: number
 }
 
@@ -55,7 +55,7 @@ export function CoffeeCardBase(coffee: SingleCoffee) {
       <CardBuy>
         <ThisCoffeePrice>
           <b>R$</b>
-          <b>{coffee.price}</b>
+          <b>{coffee.price.toFixed(2).replace('.', ',')}</b>
         </ThisCoffeePrice>
         <div>
           <QuantityButton>

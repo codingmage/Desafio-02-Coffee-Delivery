@@ -9,8 +9,16 @@ import {
 } from './styles'
 import Scooter from '../../assets/Illustration.png'
 import { Timer, CurrencyDollar, MapPin } from 'phosphor-react'
+import { useContext } from 'react'
+import { CartContext } from '../../contexts/CartContext'
 
 export function Success() {
+  const { newPaymentDetails /* payment */ } = useContext(CartContext)
+
+  const creditPayment = newPaymentDetails?.paymentMethod === 'creditCard'
+  const debitPayment = newPaymentDetails?.paymentMethod === 'debitCard'
+  const cashPayment = newPaymentDetails?.paymentMethod === 'cash'
+
   return (
     <SuccessContainer>
       <h2>Uhu! Pedido confirmado</h2>
@@ -24,8 +32,14 @@ export function Success() {
               </IconContainer>
               <div>
                 Entrega em
-                <b>Rua João Daniel Martinelli, 102</b>
-                <p>Farrapos - Porto Alegre, RS</p>
+                <b>
+                  street {newPaymentDetails?.street} {newPaymentDetails?.number}{' '}
+                  {newPaymentDetails?.additional_information}
+                </b>
+                <p>
+                  {newPaymentDetails?.district} - {newPaymentDetails?.city},{' '}
+                  {newPaymentDetails?.state}
+                </p>
               </div>
             </TextContainer>
             <TextContainer>
@@ -43,7 +57,11 @@ export function Success() {
               </IconContainer>
               <div>
                 Pagamento na entrega
-                <BoldText>Cartão de Crédito</BoldText>
+                <BoldText>
+                  {creditPayment ? 'Cartão de crédito' : null}
+                  {debitPayment ? 'Cartão de débito' : null}
+                  {cashPayment ? 'Dinheiro' : null}
+                </BoldText>
               </div>
             </TextContainer>
           </AddressContainer>

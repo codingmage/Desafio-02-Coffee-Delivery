@@ -24,7 +24,7 @@ export interface SingleCoffee {
   tagComLeite?: boolean
   tagEspecial?: boolean
   tagAlcoolico?: boolean
-  price: string
+  price: number
   coffeeQuantity: number
 }
 
@@ -35,7 +35,7 @@ const initialCoffees: SingleCoffee[] = [
     name: 'Expresso Tradicional',
     tagTradicional: true,
     description: 'O tradicional café feito com água quente e grãos moídos',
-    price: '9,90',
+    price: 9.9,
     coffeeQuantity: 1,
   },
   {
@@ -44,7 +44,7 @@ const initialCoffees: SingleCoffee[] = [
     name: 'Expresso Americano',
     tagTradicional: true,
     description: 'Expresso diluído, menos intenso que o tradicional',
-    price: '9,90',
+    price: 9.9,
     coffeeQuantity: 1,
   },
   {
@@ -53,7 +53,7 @@ const initialCoffees: SingleCoffee[] = [
     name: 'Expresso Cremoso',
     tagTradicional: true,
     description: 'Café expresso tradicional com espuma cremosa',
-    price: '9,90',
+    price: 9.9,
     coffeeQuantity: 1,
   },
   {
@@ -63,7 +63,7 @@ const initialCoffees: SingleCoffee[] = [
     tagTradicional: true,
     tagGelado: true,
     description: 'Bebida preparada com café expresso e cubos de gelo',
-    price: '9,90',
+    price: 9.9,
     coffeeQuantity: 1,
   },
   {
@@ -73,7 +73,7 @@ const initialCoffees: SingleCoffee[] = [
     tagTradicional: true,
     tagComLeite: true,
     description: 'Meio a meio de expresso tradicional com leite vaporizado',
-    price: '9,90',
+    price: 9.9,
     coffeeQuantity: 1,
   },
   {
@@ -84,7 +84,7 @@ const initialCoffees: SingleCoffee[] = [
     tagComLeite: true,
     description:
       'Uma dose de café expresso com o dobro de leite e espuma cremosa',
-    price: '9,90',
+    price: 9.9,
     coffeeQuantity: 1,
   },
   {
@@ -95,7 +95,7 @@ const initialCoffees: SingleCoffee[] = [
     tagComLeite: true,
     description:
       'Bebida com canela feita de doses iguais de café, leite e espuma',
-    price: '9,90',
+    price: 9.9,
     coffeeQuantity: 1,
   },
   {
@@ -106,7 +106,7 @@ const initialCoffees: SingleCoffee[] = [
     tagComLeite: true,
     description:
       'Café expresso misturado com um pouco de leite quente e espuma',
-    price: '9,90',
+    price: 9.9,
     coffeeQuantity: 1,
   },
   {
@@ -116,7 +116,7 @@ const initialCoffees: SingleCoffee[] = [
     tagTradicional: true,
     tagComLeite: true,
     description: 'Café expresso com calda de chocolate, pouco leite e espuma',
-    price: '9,90',
+    price: 9.9,
     coffeeQuantity: 1,
   },
   {
@@ -126,7 +126,7 @@ const initialCoffees: SingleCoffee[] = [
     tagComLeite: true,
     tagEspecial: true,
     description: 'Bebida feita com chocolate dissolvido no leite quente e café',
-    price: '9,90',
+    price: 9.9,
     coffeeQuantity: 1,
   },
   {
@@ -138,7 +138,7 @@ const initialCoffees: SingleCoffee[] = [
     tagAlcoolico: true,
     description:
       'Drink gelado de café expresso com rum, creme de leite e hortelã',
-    price: '9,90',
+    price: 9.9,
     coffeeQuantity: 1,
   },
   {
@@ -147,7 +147,7 @@ const initialCoffees: SingleCoffee[] = [
     name: 'Havaiano',
     tagEspecial: true,
     description: 'Bebida adocicada preparada com café e leite de coco',
-    price: '9,90',
+    price: 9.9,
     coffeeQuantity: 1,
   },
   {
@@ -156,7 +156,7 @@ const initialCoffees: SingleCoffee[] = [
     name: 'Árabe',
     tagEspecial: true,
     description: 'Bebida preparada com grãos de café árabe e especiarias',
-    price: '9,90',
+    price: 9.9,
     coffeeQuantity: 1,
   },
   {
@@ -166,10 +166,21 @@ const initialCoffees: SingleCoffee[] = [
     tagEspecial: true,
     tagAlcoolico: true,
     description: 'Bebida a base de café, uísque irlandês, açúcar e chantilly',
-    price: '9,90',
+    price: 9.9,
     coffeeQuantity: 1,
   },
 ]
+
+export interface NewOrderData {
+  zip_code: number
+  street: string
+  number: number
+  district: string
+  city: string
+  state: string
+  additional_information?: string
+  paymentMethod: string
+}
 
 interface CartContextType {
   newCart: SingleCoffee[] | undefined
@@ -181,6 +192,13 @@ interface CartContextType {
   moreCoffeeOnCart: ({ id }: SingleCoffee) => void
   lessCoffeeOnCart: ({ id }: SingleCoffee) => void
   cartQuantity: number
+  cartValue: number
+  createNewOrder: (data: NewOrderData) => void
+  newPaymentDetails: NewOrderData | null
+  /*   payment1: () => void
+  payment2: () => void
+  payment3: () => void
+  payment: number | undefined */
 }
 
 interface CartContextProviderProps {
@@ -285,6 +303,50 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
     0,
   )
 
+  const multipliedPrice = newCart.map(
+    (convertedCoffeePrice) =>
+      convertedCoffeePrice.coffeeQuantity * convertedCoffeePrice.price,
+  )
+
+  const cartValue = multipliedPrice.reduce(
+    (accumulator, currentValue) => accumulator + currentValue,
+    0,
+  )
+
+  const [newPaymentDetails, setnewPaymentDetails] =
+    useState<NewOrderData | null>(null)
+
+  function createNewOrder(data: NewOrderData) {
+    /*     const newPaymentDetails: NewOrderData = {
+      zip_code: data.zip_code,
+      street: data.street,
+      number: data.number,
+      district: data.district,
+      city: data.city,
+      state: data.state,
+      additional_information: data.additional_information,
+      tipo: data.tipo,
+    } */
+
+    setnewPaymentDetails(data)
+    console.log(newPaymentDetails)
+    setNewCart([])
+  }
+
+  /*   const [payment, setPayment] = useState(newPaymentDetails?.tipo)
+
+  function payment1() {
+    setPayment(1)
+  }
+
+  function payment2() {
+    setPayment(2)
+  }
+
+  function payment3() {
+    setPayment(3)
+  } */
+
   return (
     <CartContext.Provider
       value={{
@@ -297,6 +359,13 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
         moreCoffeeOnCart,
         deleteFromNewCart,
         cartQuantity,
+        cartValue,
+        createNewOrder,
+        newPaymentDetails,
+        /*         payment1,
+        payment2,
+        payment3,
+        payment, */
       }}
     >
       {children}

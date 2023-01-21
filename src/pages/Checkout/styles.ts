@@ -56,8 +56,32 @@ export const CardButton = styled.button`
   }
 `
 
-export const ButtonSelection = styled(CardButton)`
+export const ButtonSelection = styled.div`
+  background-color: ${(props) => props.theme['base-button']};
+  color: ${(props) => props.theme['base-text']};
+  font-size: 0.75rem;
+  border-radius: 6px;
+  padding: 1rem;
+  gap: 0.75rem;
+  flex-basis: 0;
+  flex-grow: 1;
+  justify-content: flex-start;
+  display: flex;
+  align-items: center;
+  line-height: 160%;
+  border: 0;
+
+  &:hover {
+    background-color: ${(props) => props.theme['base-hover']};
+  }
+
   &:focus {
+    background-color: ${(props) => props.theme['purple-light']};
+    outline: 1px solid;
+    outline-color: ${(props) => props.theme.purple};
+  }
+
+  &:checked {
     background-color: ${(props) => props.theme['purple-light']};
     outline: 1px solid;
     outline-color: ${(props) => props.theme.purple};
