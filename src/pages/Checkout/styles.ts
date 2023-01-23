@@ -211,6 +211,10 @@ export const AddressInput = styled.div`
   flex-direction: column;
   gap: 1rem;
 
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+
   div {
     display: flex;
     flex: auto;

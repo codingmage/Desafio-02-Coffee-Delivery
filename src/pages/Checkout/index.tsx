@@ -31,11 +31,10 @@ import {
   Trash,
 } from 'phosphor-react'
 
-import Expresso from '../../assets/Coffee-Types/Type=Expresso.png'
-import { Link, Navigate, NavLink, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as zod from 'zod'
+/* import { zodResolver } from '@hookform/resolvers/zod'
+import * as zod from 'zod' */
 import { useContext } from 'react'
 import {
   CartContext,
@@ -44,12 +43,12 @@ import {
 } from '../../contexts/CartContext'
 
 /* const newOrderValidationSchema = zod.object({
-  zip_code: zod.number().min(1, 'Informe seu zip_code'),
-  street: zod.string().min(1, 'Informe sua street'),
+  zip_code: zod.number().min(8).max(8, 'Informe seu CEP'),
+  street: zod.string().min(1, 'Informe sua Rua'),
   number: zod.number().min(1, 'Informe seu número'),
-  district: zod.string().min(1, 'Informe seu district'),
-  city: zod.string().min(1, 'Informe sua city'),
-  state: zod.string().min(2).max(2, 'Informe sua state'),
+  district: zod.string().min(1, 'Informe seu Bairro'),
+  city: zod.string().min(1, 'Informe sua Cidade'),
+  state: zod.string().min(2).max(2, 'Informe sua UF'),
 }) */
 
 export function Checkout() {
@@ -64,18 +63,19 @@ export function Checkout() {
     createNewOrder,
   } = useContext(CartContext)
 
-  const { register, handleSubmit, watch, reset } = useForm<NewOrderData>({
-    /* resolver: zodResolver(newOrderValidationSchema), */
-    defaultValues: {
-      zip_code: undefined,
-      street: '',
-      number: undefined,
-      district: '',
-      city: '',
-      state: '',
-      paymentMethod: '',
-    },
-  })
+  const { register, handleSubmit, watch, reset /* formState */ } =
+    useForm<NewOrderData>({
+      /*       resolver: zodResolver(newOrderValidationSchema), */
+      defaultValues: {
+        zip_code: undefined,
+        street: '',
+        number: undefined,
+        district: '',
+        city: '',
+        state: '',
+        paymentMethod: '',
+      },
+    })
 
   function handleCreateNewOrder(data: NewOrderData) {
     createNewOrder(data)
@@ -130,6 +130,8 @@ export function Checkout() {
                 type="text"
                 placeholder="CEP"
                 required
+                minLength={8}
+                maxLength={8}
                 {...register('zip_code')}
               />
               <BaseInput
@@ -142,7 +144,7 @@ export function Checkout() {
               <div>
                 <FirstInput
                   id="number"
-                  type="text"
+                  type="number"
                   placeholder="Número"
                   required
                   {...register('number')}
@@ -175,6 +177,8 @@ export function Checkout() {
                   type="text"
                   placeholder="UF"
                   required
+                  minLength={2}
+                  maxLength={2}
                   {...register('state')}
                 />
               </div>
